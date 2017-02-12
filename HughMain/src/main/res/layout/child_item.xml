@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60.0dip" >
+
+    <TextView
+        android:id="@+id/expandableList_child_text"
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="20.0dip"
+        android:text="child"
+        android:textColor="#ffff00ff"
+        android:textSize="15.0sp" />
+
+</RelativeLayout>

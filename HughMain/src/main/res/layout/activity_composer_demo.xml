@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/composer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false" >
+
+        <com.set.ui.animation.InOutRelativeLayout
+            android:id="@+id/composer_buttons_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:clipChildren="false"
+            android:clipToPadding="false" >
+
+            <com.set.ui.animation.InOutImageButton
+                android:id="@+id/composer_button_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="142dp"
+                android:layout_marginLeft="10.67dp"
+                android:background="@drawable/composer_camera"
+                android:visibility="gone"/>
+
+            <com.set.ui.animation.InOutImageButton
+                android:id="@+id/composer_button_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="135.33dp"
+                android:layout_marginLeft="52dp"
+                android:background="@drawable/composer_with"
+                android:visibility="gone"/>
+
+            <com.set.ui.animation.InOutImageButton
+                android:id="@+id/composer_button_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="116.666dp"
+                android:layout_marginLeft="89.33dp"
+                android:background="@drawable/composer_place"
+                android:visibility="gone"/>
+
+            <com.set.ui.animation.InOutImageButton
+                android:id="@+id/composer_button_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="87.33dp"
+                android:layout_marginLeft="118.67dp"
+                android:background="@drawable/composer_music"
+                android:visibility="gone"/>
+
+            <com.set.ui.animation.InOutImageButton
+                android:id="@+id/composer_button_thought"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="137.33dp"
+                android:background="@drawable/composer_thought"
+                android:visibility="gone"/>
+
+            <com.set.ui.animation.InOutImageButton
+                android:id="@+id/composer_button_sleep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="8.67dp"
+                android:layout_marginLeft="144dp"
+                android:background="@drawable/composer_sleep"
+                android:visibility="gone"/>
+        </com.set.ui.animation.InOutRelativeLayout>
+
+        <com.set.ui.animation.InOutRelativeLayout
+            android:id="@+id/composer_buttons_show_hide_button"
+            android:layout_width="60dp"
+            android:layout_height="57.33dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/composer_button_center" >
+
+            <ImageView
+                android:id="@+id/composer_buttons_show_hide_button_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/composer_icn_plus" />
+        </com.set.ui.animation.InOutRelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

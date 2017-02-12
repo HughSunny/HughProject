@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:showDividers="middle"
+    android:divider="?android:attr/dividerVertical">
+    <!-- ?android:attr：引用Android预定样式  -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:baselineAligned="false"
+        android:divider="?android:attr/dividerHorizontal"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        tools:context=".NumberListActivity" >
+
+        <fragment
+            android:id="@+id/number_list"
+            android:name="com.set.fragment.NumberListFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:layout="@android:layout/list_content" />
+
+        <FrameLayout
+            android:id="@+id/number_detail_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/detailsElementBackground"
+            android:layout_weight="3" />
+    </LinearLayout>
+    
+    <LinearLayout 
+       	android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:orientation="vertical"
+    	android:focusable="false">
+        <TextView android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:text="Bottom"/>
+        
+        <android.support.v4.view.ViewPager
+		        android:id="@+id/vp_main"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		         android:background="?android:attr/detailsElementBackground"
+		        android:flipInterval="10000" />
+        
+    </LinearLayout>
+</LinearLayout>

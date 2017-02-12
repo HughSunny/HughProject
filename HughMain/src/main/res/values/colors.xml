@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- 公共控件-->
+    <color name="navigation_bg">#25A397</color>
+    <color name="progress_color">#ff5b5b</color>
+    <color name="progress_bg">#ff6E716E</color>
+
+</resources>

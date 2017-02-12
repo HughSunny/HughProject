@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+  
+    <com.signway.setting.view.LongPressButton
+        android:id="@+id/add"
+        android:focusable="true"
+        android:nextFocusDown="@+id/reduce"
+        android:layout_width="fill_parent"
+        android:layout_height="30px"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside" />
+        
+
+
+    <com.signway.setting.view.wheel.WheelView
+        android:id="@+id/wheel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add" 
+        android:layout_centerHorizontal="true"/>
+
+    <com.signway.setting.view.LongPressButton
+        android:id="@+id/reduce"
+        android:focusable="true"
+        android:nextFocusUp="@+id/add"
+        android:nextFocusDown="@+id/reduce"
+        
+        android:layout_width="fill_parent"
+        android:layout_height="30px"
+        android:layout_below="@id/wheel"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerInside" />
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_tab_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/tab_left" >
+    <TextView 
+        android:id="@+id/left_btn"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:textSize="@dimen/custom_btn_size"/>
+    <TextView
+        android:id="@+id/right_btn" 
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:textSize="@dimen/custom_btn_size"/>
+
+</LinearLayout>

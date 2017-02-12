@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+		<include  android:layout_width="wrap_content"
+            android:layout_height="@dimen/hor_combine_item_height"
+		    layout="@layout/hor_left_item"/>
+        <com.set.ui.list.CustomListView
+            android:id="@+id/hor_left_list"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:divider="@null"
+            android:scrollbars="none"
+            android:cacheColorHint="@android:color/transparent" >
+        </com.set.ui.list.CustomListView>
+    </LinearLayout>
+    <HorizontalScrollView 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <include android:layout_width="wrap_content"
+            	android:layout_height="@dimen/hor_combine_item_height"
+                layout="@layout/hor_right_header"/>
+            <com.set.ui.list.CustomListView
+                android:id="@+id/hor_right_list"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:divider="@null"
+                android:cacheColorHint="@android:color/transparent">
+            </com.set.ui.list.CustomListView>
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

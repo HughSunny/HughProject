@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/hor_combine_item_height"
+    android:orientation="horizontal" >
+    <TextView android:id="@+id/right_row1"
+        android:layout_width="100dp"
+        android:layout_height="fill_parent"
+        android:text="edit1"/>
+	<TextView android:id="@+id/right_row2"
+        android:layout_width="100dp"
+        android:layout_height="fill_parent"
+        android:text="edit2"/>  
+	
+    <TextView android:id="@+id/right_row3"
+        android:layout_width="100dp"
+        android:layout_height="fill_parent"
+        android:text="edit3"/>
+</LinearLayout>

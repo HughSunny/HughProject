@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/peoplerow_plxc"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal" >
+
+    <!--      style="@style/plxf_item_txt"    android:background="@drawable/shappe"
+    android:focusableInTouchMode="true"-->
+
+    <TextView
+        android:id="@+id/plxcck_ch"
+        android:layout_width="110px"
+        android:layout_height="wrap_content"
+        android:text="床号"
+        android:layout_marginLeft="10dp"
+        style="@style/plxf_item_txt" />
+
+    <TextView
+        android:id="@+id/plxcck_xm"
+        android:layout_width="165px"
+        android:layout_height="wrap_content"
+        android:text="姓名"
+        style="@style/plxf_item_txt" />
+
+    <TextView
+        android:id="@+id/plxcck_sj"
+        android:layout_width="165px"
+        android:layout_height="wrap_content"
+        android:text="时间"
+        style="@style/plxf_item_txt" />
+
+    <TextView
+        android:id="@+id/plxcck_zx"
+        android:layout_width="165px"
+        android:layout_height="wrap_content"
+        android:text="执行信息"
+        style="@style/plxf_item_txt" />
+
+    <TextView
+        android:id="@+id/plxcck_zxr"
+        android:layout_width="165px"
+        android:layout_height="wrap_content"
+        android:text="执行人"
+        style="@style/plxf_item_txt" />
+    
+     <TextView
+        android:id="@+id/plxcck_zt"
+        android:layout_width="110px"
+        android:layout_height="wrap_content"
+        android:text="状态"
+        style="@style/plxf_item_txt" />
+
+</LinearLayout>
