@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * 横向
+ * 横向滑动的listview
  */
 public class HorizontialListView extends AdapterView<ListAdapter> {
 

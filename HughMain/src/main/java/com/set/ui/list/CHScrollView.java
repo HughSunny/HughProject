@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
-import com.test.HListActivity;
+import com.test.list.HListActivity;
 
 public class CHScrollView extends HorizontalScrollView {
 	

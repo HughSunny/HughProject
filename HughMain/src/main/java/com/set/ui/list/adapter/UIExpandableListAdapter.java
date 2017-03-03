@@ -100,7 +100,7 @@ public class UIExpandableListAdapter extends BaseExpandableListAdapter implement
 		SectionHolder holder = null;
 		if(convertView == null){
 			holder = new SectionHolder();
-			convertView = mInflater.inflate(R.layout.group_item, null);
+			convertView = mInflater.inflate(R.layout.item_expand_group, null);
 			convertView.setLayoutParams(lp);
 			holder.headerText = (TextView)convertView.findViewById(R.id.expandableList_header_text);
 			holder.arrowdown = (ImageView)convertView.findViewById(R.id.arrow_down);

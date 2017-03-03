@@ -70,7 +70,7 @@ public class HVListView extends ListView {
 		for (int j = 0; j < childCount; j++) {
 			getScrollItem(j).scrollBy(dx, 0);
 		}
-		if (mScroller.getFinalX() != 0) { //==0 fling  != scroll
+		if (mScroller.getFinalX() != 0) { //==0 fling  != page_test_scroll
 			otherScrollX = mScroller.getCurrX();
 		}
 		

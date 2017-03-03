@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.hugh.work.utils.ApplicationUtil;
+import set.work.utils.ApplicationUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 

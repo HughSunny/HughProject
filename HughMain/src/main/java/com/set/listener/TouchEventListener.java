@@ -4,5 +4,5 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public interface TouchEventListener {
-	public abstract void touchEvent(View view, MotionEvent event);
+	public void touchEvent(View view, MotionEvent event);
 }

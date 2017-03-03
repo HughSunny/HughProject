@@ -778,7 +778,7 @@ public class UIFixedScrollListView extends ListView implements
 //		if(titleView != null && titleView.getWidth() > 0){
 //			getWholeWidth();
 //			final Paint p = new Paint();
-//			//Separate line
+//			//Separate view_line
 //			p.setColor(0x50000000);
 //			canvas.drawRect(offWidth==0?StringUtils.dipToPx(shadowWidth):offWidth, 0, StringUtils.dipToPx(shadowWidth) + 10, getHeight(), p);
 //			//Scroll bar

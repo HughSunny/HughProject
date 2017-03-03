@@ -37,6 +37,8 @@ import com.set.page.WebActivity;
 /**
  * ViewPager实现的轮播图广告自定义视图，如京东首页的广告轮播图效果；
  * 既支持自动轮播页面也支持手势滑动切换页面
+ *
+ * 完整封装
  */
 
 public class SlideShowView extends FrameLayout {

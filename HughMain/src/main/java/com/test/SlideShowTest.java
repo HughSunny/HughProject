@@ -16,7 +16,7 @@ public class SlideShowTest extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.test_silde_show);
+		setContentView(R.layout.page_test_slide_show);
 		slideView = (SlideShowView) findViewById(R.id.slideshowView);
 		SlideItemBean bean = new SlideItemBean();
 		bean.img = "http://image.zcool.com.cn/56/35/1303967876491.jpg";
