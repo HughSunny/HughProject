@@ -190,19 +190,5 @@ public class PublicTool {
 		String aa = fmt.format(text);
 		return Float.parseFloat(aa);
 	}
-	
-	public static String getFileName(String file) {
-		if (file == null) {
-			return null;
-		}
-		int start = file.lastIndexOf('/');
-		if (start < 0) {
-			start = 0;
-		}
-		int end = file.lastIndexOf('.');
-		if (end < 0) {
-			end = file.length();
-		}
-		return file.substring(start, end);
-	}
+
 }
