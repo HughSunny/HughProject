@@ -7,7 +7,7 @@
 
     <!-- 主题图片 -->
 
-    <com.set.ui.view.SlideShowView
+    <com.set.ui.view.img.SlideShowView
         android:id="@+id/slideshowView"
         android:layout_width="fill_parent"
         android:layout_height="180dp"

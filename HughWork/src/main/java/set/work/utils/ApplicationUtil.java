@@ -260,4 +260,29 @@ public class ApplicationUtil {
         }
         return hasInstall;
     }
+
+    /**
+     * 服务是否在跑
+     * @param mContext
+     * @param className
+     * @return
+     */
+    public static boolean isServiceRunning(Context mContext, String className) {
+        boolean IsRunning = false;
+        ActivityManager activityManager = (ActivityManager) mContext
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager
+                .getRunningServices(30);
+        if (!(serviceList.size() > 0)) {
+            return false;
+        }
+        for (int i = 0; i < serviceList.size(); i++) {
+            if (serviceList.get(i).service.getClassName().contains(className) == true) {
+                IsRunning = true;
+                break;
+            }
+        }
+        return IsRunning;
+    }
+
 }

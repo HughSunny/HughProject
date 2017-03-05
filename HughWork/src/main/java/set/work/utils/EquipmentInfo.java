@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
@@ -260,4 +261,33 @@ public class EquipmentInfo {
 //		LogUtil.logW(APP_NAME,"getStatusBarHeight + " + sbar);
 		return sbar;
 	}
+
+	public static int findFrontCamera() {
+		int cameraCount = 0;
+		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+		cameraCount = Camera.getNumberOfCameras(); // get cameras number
+
+		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+			Camera.getCameraInfo(camIdx, cameraInfo); // get camerainfo
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+				return camIdx;
+			}
+		}
+		return -1;
+	}
+
+	public static int findBackCamera() {
+		int cameraCount = 0;
+		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+		cameraCount = Camera.getNumberOfCameras(); // get cameras number
+
+		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+			Camera.getCameraInfo(camIdx, cameraInfo); // get camerainfo
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+				return camIdx;
+			}
+		}
+		return -1;
+	}
+
 }

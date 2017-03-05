@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.set.R;
 import com.set.bean.SlideItemBean;
-import com.set.ui.view.SlideShowView;
+import com.set.ui.view.img.SlideShowView;
 
 public class SlideShowTest extends Activity {
 	SlideShowView  slideView;

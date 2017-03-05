@@ -8,10 +8,15 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.util.Log;
@@ -20,6 +25,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -451,6 +457,147 @@ public class BitmapUtils {
 	      canvas.restore();
 		   
 		  return bitmap;  
-	}  
-	
+	}
+
+
+    /**
+     * 获取圆角的bitmap
+     *
+     * @param bitmap
+     * @param roundPx
+     * @return
+     */
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap,float roundPx){
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
+    public static Bitmap getGrayscale(Bitmap bmpOriginal) {
+        int width, height;
+        height = bmpOriginal.getHeight();
+        width = bmpOriginal.getWidth();
+
+        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height,
+                Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(bmpGrayscale);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        c.drawBitmap(bmpOriginal, 0, 0, paint);
+        return bmpGrayscale;
+    }
+
+    /**
+     * 锟睫革拷图片alpha值
+     * @param sourceImg
+     * @param number
+     * @return
+     */
+    public static Bitmap setAlphaByBitmap(Bitmap sourceImg, int number) {
+        int[] argb = new int[sourceImg.getWidth() * sourceImg.getHeight()];
+        sourceImg.getPixels(argb, 0, sourceImg.getWidth(), 0, 0, sourceImg.getWidth(), sourceImg.getHeight());// 锟斤拷锟酵计拷锟紸RGB值
+        number = number * 255 / 100;
+        for (int i = 0; i < argb.length; i++) {
+            argb[i] = (number << 24) | (argb[i] & 0x00FFFFFF);// 锟睫革拷锟斤拷锟�2位锟斤拷值
+        }
+        sourceImg = Bitmap.createBitmap(argb, sourceImg.getWidth(), sourceImg.getHeight(), Bitmap.Config.ARGB_8888);
+        return sourceImg;
+    }
+
+    /**
+     * 锟睫革拷图片rgb值
+     * @param sourceImg
+     * @param Beta
+     * @return
+     */
+    public static Bitmap effectBitmapBeta(Bitmap sourceImg, int Beta) {
+        int srcW = sourceImg.getWidth();
+        int srcH = sourceImg.getHeight();
+        int[] srcPixels = new int[sourceImg.getWidth() * sourceImg.getHeight()];
+        sourceImg.getPixels(srcPixels, 0, sourceImg.getWidth(), 0, 0, sourceImg.getWidth(), sourceImg.getHeight());// 锟斤拷锟酵计拷锟紸RGB值
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        int a = 0;
+        int argb;
+        for (int i = 0; i < srcH; i++) {
+            for (int ii = 0; ii < srcW; ii++) {
+                argb = srcPixels[i * srcW + ii];
+                a = ((argb & 0xff000000) >> 24); // alpha channel
+                r = Beta + ((argb & 0x00ff0000) >> 16); // red channel
+                g = Beta + ((argb & 0x0000ff00) >> 8); // green channel
+                b = Beta + (argb & 0x000000ff); // blue channel
+
+                r = r > 255 ? 255 : r;
+                g = g > 255 ? 255 : g;
+                b = b > 255 ? 255 : b;
+                srcPixels[i * srcW + ii] = ((a << 24) | (r << 16) | (g << 8) | b);
+            }
+        }
+        sourceImg = Bitmap.createBitmap(srcPixels, sourceImg.getWidth(), sourceImg.getHeight(), Bitmap.Config.ARGB_8888);
+        return sourceImg;
+    }
+
+    /**
+     * 获取视频的缩略图
+     * @param file
+     * @param width
+     * @param height
+     * @return
+     */
+    public static Bitmap createVideoThumbnali(String file, int width, int height) {
+        Bitmap bitmap = null;
+        MediaPlayer mp = new MediaPlayer();
+        try {
+            mp.setDataSource(file);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int i = mp.getDuration();
+        mp.release();
+        // MediaMetadataRetriever retriver = new MediaMetadataRetriever();
+        // retriver.setDataSource(file);
+        // bitmap = retriver.getFrameAtTime(i);
+        // retriver.release();
+        if (bitmap != null) {
+            int imageHeight = bitmap.getHeight();
+            int imageWidth = bitmap.getWidth();
+            if (imageHeight == height && imageWidth == width) {
+                return bitmap;
+            }
+            Matrix matix = new Matrix();
+            float scaleX = (width * 1.0f) / imageWidth;
+            float scaleY = (height * 1.0f) / imageHeight;
+            matix.setScale(scaleX, scaleY);
+            Bitmap retBitmap = Bitmap.createBitmap(bitmap, 0, 0, imageWidth,
+                    imageHeight, matix, true);
+            bitmap.recycle();
+            return retBitmap;
+        }
+        return bitmap;
+    }
+
 }

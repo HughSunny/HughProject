@@ -1,4 +1,4 @@
-package com.set.ui.view;
+package com.set.ui.view.img;
 
 import java.util.Random;
 
@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.set.ui.UIUtil;
- 
+import set.work.utils.PublicTools;
+
+/**
+ * 转场的image视图
+ */
 public final class TransImageView extends SurfaceView implements SurfaceHolder.Callback {
 	private static final String TAG = "ImageView";
 	private int random;
@@ -878,7 +881,7 @@ public final class TransImageView extends SurfaceView implements SurfaceHolder.C
 			bitmapBackGround = bitmapCurrent;
 		}
 
-		bitmapCurrent = UIUtil.getBitmap(mSourceFile, image_w, image_h,2);
+		bitmapCurrent = PublicTools.getBitmap(mSourceFile, image_w, image_h,2);
 		if (bitmapCurrent == null) {
 			Log.d(TAG, "setNextImage(): bitmapCurrent is null");
 			hasDrawed = true;
