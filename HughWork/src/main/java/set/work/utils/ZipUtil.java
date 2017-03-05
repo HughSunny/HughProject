@@ -27,43 +27,36 @@ public class ZipUtil {
      * @param zos 压缩文件存储对象
      * @throws Exception
      */
-    private static void zip(String srcRootDir, File file, ZipOutputStream zos) throws Exception
-    {
-        if (file == null)
-        {
+    private static void zip(String srcRootDir, File file, ZipOutputStream zos) throws Exception {
+        if (file == null) {
             return;
         }
 
         //如果是文件，则直接压缩该文件
-        if (file.isFile())
-        {
+        if (file.isFile()) {
             int count, bufferLen = 1024;
             byte data[] = new byte[bufferLen];
 
             //获取文件相对于压缩文件夹根目录的子路径
             String subPath = file.getAbsolutePath();
             int index = subPath.indexOf(srcRootDir);
-            if (index != -1)
-            {
+            if (index != -1) {
                 subPath = subPath.substring(srcRootDir.length() + File.separator.length());
             }
             ZipEntry entry = new ZipEntry(subPath);
             zos.putNextEntry(entry);
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-            while ((count = bis.read(data, 0, bufferLen)) != -1)
-            {
+            while ((count = bis.read(data, 0, bufferLen)) != -1) {
                 zos.write(data, 0, count);
             }
             bis.close();
             zos.closeEntry();
         }
         //如果是目录，则压缩整个目录
-        else
-        {
+        else {
             //压缩目录中的文件或子目录
             File[] childFileList = file.listFiles();
-            for (int n=0; n<childFileList.length; n++)
-            {
+            for (int n=0; n<childFileList.length; n++) {
                 childFileList[n].getAbsolutePath().indexOf(file.getAbsolutePath());
                 zip(srcRootDir, childFileList[n], zos);
             }
@@ -77,36 +70,31 @@ public class ZipUtil {
      * @param zipFileName 压缩文件名
      * @throws Exception
      */
-    public static void zip(String srcPath, String zipPath, String zipFileName) throws Exception
-    {
-        if (StringUtil.isEmpty(srcPath) || StringUtil.isEmpty(zipPath) || StringUtil.isEmpty(zipFileName))
-        {
+    public static void zip(String srcPath, String zipPath, String zipFileName) throws Exception {
+        if (StringUtil.isEmpty(srcPath) || StringUtil.isEmpty(zipPath) || StringUtil.isEmpty(zipFileName)) {
             throw new ParameterException(ICommonResultCode.PARAMETER_IS_NULL);
         }
         CheckedOutputStream cos = null;
         ZipOutputStream zos = null;
-        try
-        {
+        try {
+
             File srcFile = new File(srcPath);
 
             //判断压缩文件保存的路径是否为源文件路径的子文件夹，如果是，则抛出异常（防止无限递归压缩的发生）
-            if (srcFile.isDirectory() && zipPath.indexOf(srcPath)!=-1)
-            {
+            if (srcFile.isDirectory() && zipPath.indexOf(srcPath)!=-1) {
                 throw new ParameterException(ICommonResultCode.INVALID_PARAMETER, "zipPath must not be the child directory of srcPath.");
             }
 
             //判断压缩文件保存的路径是否存在，如果不存在，则创建目录
             File zipDir = new File(zipPath);
-            if (!zipDir.exists() || !zipDir.isDirectory())
-            {
+            if (!zipDir.exists() || !zipDir.isDirectory()) {
                 zipDir.mkdirs();
             }
 
             //创建压缩文件保存的文件对象
             String zipFilePath = zipPath + File.separator + zipFileName;
             File zipFile = new File(zipFilePath);
-            if (zipFile.exists())
-            {
+            if (zipFile.exists()) {
                 //检测文件是否允许删除，如果不允许删除，将会抛出SecurityException
 //                SecurityManager securityManager = new SecurityManager();
 //                securityManager.checkDelete(zipFilePath);
@@ -119,8 +107,7 @@ public class ZipUtil {
 
             //如果只是压缩一个文件，则需要截取该文件的父目录
             String srcRootDir = srcPath;
-            if (srcFile.isFile())
-            {
+            if (srcFile.isFile())  {
                 int index = srcPath.lastIndexOf(File.separator);
                 if (index != -1)
                 {
@@ -131,12 +118,10 @@ public class ZipUtil {
             zip(srcRootDir, srcFile, zos);
             zos.flush();
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw e;
         }
-        finally
-        {
+        finally {
             try
             {
                 if (zos != null)
@@ -158,16 +143,13 @@ public class ZipUtil {
      * @param includeZipFileName 解压后的文件保存的路径是否包含压缩文件的文件名。true-包含；false-不包含
      */
     @SuppressWarnings("unchecked")
-    public static void unzip(String zipFilePath, String unzipFilePath, boolean includeZipFileName) throws Exception
-    {
-        if (StringUtil.isEmpty(zipFilePath) || StringUtil.isEmpty(unzipFilePath))
-        {
+    public static void unzip(String zipFilePath, String unzipFilePath, boolean includeZipFileName) throws Exception {
+        if (StringUtil.isEmpty(zipFilePath) || StringUtil.isEmpty(unzipFilePath)) {
             throw new ParameterException(ICommonResultCode.PARAMETER_IS_NULL);
         }
         File zipFile = new File(zipFilePath);
         //如果解压后的文件保存路径包含压缩文件的文件名，则追加该文件名到解压路径
-        if (includeZipFileName)
-        {
+        if (includeZipFileName) {
             String fileName = zipFile.getName();
             if (!StringUtil.isEmpty(fileName))
             {
@@ -177,8 +159,7 @@ public class ZipUtil {
         }
         //创建解压缩文件保存的路径
         File unzipFileDir = new File(unzipFilePath);
-        if (!unzipFileDir.exists() || !unzipFileDir.isDirectory())
-        {
+        if (!unzipFileDir.exists() || !unzipFileDir.isDirectory()) {
             unzipFileDir.mkdirs();
         }
 
@@ -193,32 +174,27 @@ public class ZipUtil {
         ZipFile zip = new ZipFile(zipFile);
         Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>)zip.entries();
         //循环对压缩包里的每一个文件进行解压
-        while(entries.hasMoreElements())
-        {
+        while(entries.hasMoreElements()) {
             entry = entries.nextElement();
             //构建压缩包中一个文件解压后保存的文件全路径
             entryFilePath = unzipFilePath + File.separator + entry.getName();
             //构建解压后保存的文件夹路径
             index = entryFilePath.lastIndexOf(File.separator);
-            if (index != -1)
-            {
+            if (index != -1) {
                 entryDirPath = entryFilePath.substring(0, index);
             }
-            else
-            {
+            else {
                 entryDirPath = "";
             }
             entryDir = new File(entryDirPath);
             //如果文件夹路径不存在，则创建文件夹
-            if (!entryDir.exists() || !entryDir.isDirectory())
-            {
+            if (!entryDir.exists() || !entryDir.isDirectory()) {
                 entryDir.mkdirs();
             }
 
             //创建解压文件
             entryFile = new File(entryFilePath);
-            if (entryFile.exists())
-            {
+            if (entryFile.exists()) {
                 //检测文件是否允许删除，如果不允许删除，将会抛出SecurityException
 //                SecurityManager securityManager = new SecurityManager();
 //                securityManager.checkDelete(entryFilePath);
@@ -229,8 +205,7 @@ public class ZipUtil {
             //写入文件
             bos = new BufferedOutputStream(new FileOutputStream(entryFile));
             bis = new BufferedInputStream(zip.getInputStream(entry));
-            while ((count = bis.read(buffer, 0, bufferSize)) != -1)
-            {
+            while ((count = bis.read(buffer, 0, bufferSize)) != -1)  {
                 bos.write(buffer, 0, count);
             }
             bos.flush();
@@ -243,33 +218,26 @@ public class ZipUtil {
         String zipPath = "/Users/Hugh/Desktop/java/test";
         String dir = "/Users/Hugh/Desktop/java/test/test";
         String zipFileName = "test.zip";
-        try
-        {
+        try {
             zip(dir, zipPath, zipFileName);
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             e.printStackTrace();
         }
 
         String zipFilePath = "/Users/Hugh/Desktop/java/test/test.zip";
         String unzipFilePath = "/Users/Hugh/Desktop/java/test/zipPath";
-        try
-        {
+        try {
             unzip(zipFilePath, unzipFilePath, false);
         }
-        catch (Exception e)
-        {
+        catch (Exception e)  {
             e.printStackTrace();
         }
 
         String zipFile = "/Users/Hugh/Desktop/java/test/DictDepartment.zip";
-        try
-        {
+        try {
             unzip(zipFile, unzipFilePath, true);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
