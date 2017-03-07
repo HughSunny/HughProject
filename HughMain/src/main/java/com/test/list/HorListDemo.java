@@ -8,6 +8,10 @@ import com.set.R;
 import com.set.ui.list.HVListView;
 import com.set.ui.list.adapter.HorScrollListAdapter;
 
+/**
+ * 失败
+ * 开源 scroller + listview 横向滑动 协同滚动
+ */
 public class HorListDemo extends Activity {
 	HVListView listView;
 	LinearLayout headerView;

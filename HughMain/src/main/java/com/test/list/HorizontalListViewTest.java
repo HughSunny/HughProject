@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.set.R;
 import com.set.ui.list.HorizontialListView;
 
-public class HorizontalListViewDemo extends Activity {
+public class HorizontalListViewTest extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

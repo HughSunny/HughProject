@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="表头测试" />
 
-    <com.test.list.CHScrollView
+    <com.set.ui.list.CHScrollView
         android:id="@+id/item_scroll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -66,7 +66,19 @@
                 android:textColor="#910"
                 android:layout_height="fill_parent"
                 android:gravity="center" />
+            <TextView
+                android:id="@+id/item_data7"
+                android:layout_width="100dip"
+                android:textColor="#910"
+                android:layout_height="fill_parent"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/item_data8"
+                android:layout_width="100dip"
+                android:textColor="#910"
+                android:layout_height="fill_parent"
+                android:gravity="center" />
         </LinearLayout>
-    </com.test.list.CHScrollView>
+    </com.set.ui.list.CHScrollView>
 
 </LinearLayout>

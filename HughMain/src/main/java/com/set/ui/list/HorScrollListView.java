@@ -9,6 +9,9 @@ import android.widget.ListView;
 import com.set.R;
 import com.set.ui.view.adapter.HorScrollListAdapter;
 
+/**
+ * 测试失败，scrollview + listview 一起滚动
+ */
 public class HorScrollListView extends LinearLayout{
 	LayoutInflater inflater;
 	private ListView listView;

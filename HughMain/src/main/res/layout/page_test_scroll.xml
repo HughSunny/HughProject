@@ -19,7 +19,7 @@
             android:gravity="center"
             android:text="表头测试" />
 
-        <com.test.list.CHScrollView
+        <com.set.ui.list.CHScrollView
             android:id="@+id/item_scroll_title"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -72,7 +72,7 @@
                     android:layout_height="fill_parent"
                     android:gravity="center" />
             </LinearLayout>
-        </com.test.list.CHScrollView>
+        </com.set.ui.list.CHScrollView>
     </LinearLayout>
 
     <ListView

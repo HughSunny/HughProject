@@ -9,7 +9,7 @@
         android:orientation="vertical" >
 		<include  android:layout_width="wrap_content"
             android:layout_height="@dimen/hor_combine_item_height"
-		    layout="@layout/hor_left_item"/>
+		    layout="@layout/item_hor_left"/>
         <com.set.ui.list.CustomListView
             android:id="@+id/hor_left_list"
             android:layout_width="wrap_content"

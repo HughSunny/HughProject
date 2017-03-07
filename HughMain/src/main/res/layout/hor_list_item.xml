@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/plxcck_ch"
         style="@style/plxf_item_txt"
-        android:layout_width="110px"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="床号" />
@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/plxcck_xm"
         style="@style/plxf_item_txt"
-        android:layout_width="165px"
+        android:layout_width="185dp"
         android:layout_height="wrap_content"
         android:text="姓名" />
 
@@ -28,28 +28,28 @@
         <TextView
             android:id="@+id/plxcck_sj"
             style="@style/plxf_item_txt"
-            android:layout_width="165px"
+            android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:text="时间" />
 
         <TextView
             android:id="@+id/plxcck_zx"
             style="@style/plxf_item_txt"
-            android:layout_width="165px"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
             android:text="执行信息" />
 
         <TextView
             android:id="@+id/plxcck_zxr"
             style="@style/plxf_item_txt"
-            android:layout_width="165px"
+            android:layout_width="185dp"
             android:layout_height="wrap_content"
             android:text="执行人" />
 
         <TextView
             android:id="@+id/plxcck_zt"
             style="@style/plxf_item_txt"
-            android:layout_width="110px"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="状态" />
     </LinearLayout>

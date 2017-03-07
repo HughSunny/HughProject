@@ -19,7 +19,11 @@ import android.widget.Toast;
 
 import com.set.R;
 import com.set.ui.list.CHScrollView;
-public class HListActivity extends Activity{
+
+/**
+ * 用HorizontalScrollView 定制成横向滑动的scrollview
+ */
+public class CRScrollViewTest extends Activity{
 	 private ListView mListView;
 	 public HorizontalScrollView mTouchView;
 	 protected List<CHScrollView> mHScrollViews =new ArrayList<CHScrollView>();
@@ -47,17 +51,21 @@ public class HListActivity extends Activity{
 			data.put("data_" + 4, "Date_" + 4 + "_" +i );
 			data.put("data_" + 5, "Date_" + 5 + "_" +i );
 			data.put("data_" + 6, "Date_" + 6 + "_" +i );
+			data.put("data_" + 7, "Date_" + 7 + "_" +i );
+			data.put("data_" + 8, "Date_" + 8 + "_" +i );
 			datas.add(data);
 		}
 		SimpleAdapter adapter = new ScrollAdapter(this, datas, R.layout.item
-							, new String[] { "title", "data_1", "data_2", "data_3", "data_4", "data_5", "data_6", }
+							, new String[] { "title", "data_1", "data_2", "data_3", "data_4", "data_5", "data_6","data_7","data_8", }
 							, new int[] { R.id.item_title 
 										, R.id.item_data1
 										, R.id.item_data2
 										, R.id.item_data3
 										, R.id.item_data4
 										, R.id.item_data5
-										, R.id.item_data6 });
+										, R.id.item_data6
+				, R.id.item_data7
+				, R.id.item_data8});
 		mListView.setAdapter(adapter);
 	}
 	
@@ -129,7 +137,7 @@ public class HListActivity extends Activity{
 	protected View.OnClickListener clickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(HListActivity.this, ((TextView)v).getText(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(CRScrollViewTest.this, ((TextView)v).getText(), Toast.LENGTH_SHORT).show();
 		}
 	};
 }

@@ -5,26 +5,29 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
-import com.test.list.HListActivity;
+import com.test.list.CRScrollViewTest;
 
+/**
+ * 横向监控的HorizontalScrollView
+ */
 public class CHScrollView extends HorizontalScrollView {
 	
-	HListActivity activity;
+	CRScrollViewTest activity;
 	
 	public CHScrollView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		activity = (HListActivity) context;
+		activity = (CRScrollViewTest) context;
 	}
 
 	
 	public CHScrollView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		activity = (HListActivity) context;
+		activity = (CRScrollViewTest) context;
 	}
 
 	public CHScrollView(Context context) {
 		super(context);
-		activity = (HListActivity) context;
+		activity = (CRScrollViewTest) context;
 	}
 	
 	@Override

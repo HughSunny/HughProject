@@ -16,16 +16,16 @@ import java.util.TreeMap;
 public class MapUtil {
 
     /**
-     * 查看
+     * map是否是空
      * @param map
      * @return
      */
     public static boolean isEmpty(Map map) {
         if (map == null || map.size() == 0) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
 

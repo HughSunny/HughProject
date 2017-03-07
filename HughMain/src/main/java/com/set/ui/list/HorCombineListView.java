@@ -79,7 +79,7 @@ public class HorCombineListView extends LinearLayout {
 			View v = convertView;
 			if(v == null) {
 				viewHolder = new ViewHolder();
-				v = LayoutInflater.from(context).inflate(R.layout.hor_left_item, null);
+				v = LayoutInflater.from(context).inflate(R.layout.item_hor_left, null);
 				//第一次初始化的时候装进来
 				viewHolder.text1 = (TextView) v.findViewById(R.id.left_row1);
 				viewHolder.text2 = (TextView) v.findViewById(R.id.left_row2);

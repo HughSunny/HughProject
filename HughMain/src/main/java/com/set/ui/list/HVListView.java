@@ -185,7 +185,6 @@ public class HVListView extends ListView {
 	}
 	
 	private View getScrollItem(int postion) {
-//		return ((ViewGroup)((ViewGroup)getChildAt(postion)).getChildAt(0)).getChildAt(1);
 		return ((ViewGroup)getChildAt(postion)).getChildAt(SCORLL_INDEX);
 //		return getChildAt(postion);
 	}
