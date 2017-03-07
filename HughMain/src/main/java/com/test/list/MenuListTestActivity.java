@@ -162,7 +162,7 @@ public class MenuListTestActivity extends Activity implements SlideAndDragListVi
         mListView.setOnListItemClickListener(this);
         mListView.setOnSlideListener(this);
         mListView.setOnMenuItemClickListener(this);
-        mListView.setOnItemDeleteListener(this);
+//        mListView.setOnItemDeleteListener(this);
         mListView.setDivider(new ColorDrawable(Color.GRAY));
         mListView.setDividerHeight(1);
     }

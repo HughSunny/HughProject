@@ -8,7 +8,9 @@ import java.util.List;
  */
 public final class ListMenu {
     public static final int ITEM_NOTHING = 0;
+    //菜单会自动回滚
     public static final int ITEM_SCROLL_BACK = 1;
+    //删除之后自动刷新，会调用接口
     public static final int ITEM_DELETE_FROM_BOTTOM_TO_TOP = 2;
 
     private List<ListMenuItem> mLeftMenuItems;
