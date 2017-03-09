@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
-public class MainApp extends Application {
+import set.work.app.BaseApp;
+
+public class MainApp extends BaseApp{
 	private static MainApp application;
 	public boolean ispad;
 
@@ -23,6 +25,8 @@ public class MainApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		ispad = isTablet(this);// ture是pad，false是pda
+		BaseApp.Debug = true;
+		APP_NAME = "DaShun";
 	}
 
 	@Override

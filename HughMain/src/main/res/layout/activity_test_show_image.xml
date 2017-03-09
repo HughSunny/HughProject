@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/navigation_bar_height"
+        android:background="@color/navigation_bg" >
+        <TextView
+            android:id="@+id/patient_info_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="图片查看"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_hugh_size" />
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/topbar_back" />
+    </RelativeLayout>
+	<TextView 
+	    android:id="@+id/text_img_name"
+	    android:layout_below="@id/top"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textColor="@color/dark_gray"
+	    android:gravity="center"
+	    android:padding="2dp"
+	    android:textSize="@dimen/text_nomal_size"/>
+	<com.set.ui.view.img_show.ImageShowViewPager
+		android:layout_below="@id/text_img_name"
+		android:id="@+id/viewPager"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" >
+	</com.set.ui.view.img_show.ImageShowViewPager>
+
+    <LinearLayout
+        android:id="@+id/viewGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+</RelativeLayout>

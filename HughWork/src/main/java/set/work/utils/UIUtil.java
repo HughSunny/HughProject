@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 /**
@@ -71,6 +73,10 @@ public class UIUtil {
         }
     }
 
+    /**
+     * 获取listview 的高度
+     * @param listView
+     */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         Log.w(TAG, "==================> listData local height  =" + listView.getHeight() );
         // 获取ListView对应的Adapter
@@ -93,5 +99,38 @@ public class UIUtil {
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
         Log.w(TAG, "================== > listData height  =" + totalHeight );
+    }
+
+    /**
+     *  获取 扩展listview 的高度
+     * @param listView
+     */
+    public static void setListViewHeightBasedOnChildren(ExpandableListView listView) {
+        // 获取ListView对应的Adapter
+        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+        if (listAdapter == null) {
+            // pre -condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) { // listAdapter.getCount()返回数据项的数目
+            View listgroupItem = listAdapter.getGroupView(i, true, null, listView);
+            listgroupItem.measure(0, 0); // 计算子项View 的宽高
+            totalHeight += listgroupItem.getMeasuredHeight(); // 统计所有子项的总高度
+            System.out.println("height : group" + i + "次" + totalHeight);
+            for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                View listchildItem = listAdapter.getChildView(i, j, false, null, listView);
+                listchildItem.measure(0, 0); // 计算子项View 的宽高
+                totalHeight += listchildItem.getMeasuredHeight(); // 统计所有子项的总高度
+                System.out.println("height :" + "group:" + i + " child:" + j + "次" + totalHeight);
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        // listView.getDividerHeight()获取子项间分隔符占用的高度
+        // params.height最后得到整个ListView完整显示需要的高度
+        listView.setLayoutParams(params);
     }
 }
