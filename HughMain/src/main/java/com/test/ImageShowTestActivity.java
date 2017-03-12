@@ -29,6 +29,8 @@ import com.set.ui.view.img_show.ImageShowViewPager;
 import com.set.ui.view.img_show.TouchImageView;
 import com.set.util.SyncImageLoader;
 
+import set.work.utils.BitmapUtil;
+
 /**
  * 历次病历 检查 心电、病理、超声 图片查看
  * @author Hugh
@@ -52,9 +54,10 @@ public class ImageShowTestActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_test_show_image);
 		findView();
 		if (imageList == null || imageList.size() == 0) {
-			imageList.add(new EmrImageBean("http://img1.cache.netease.com/catchpic/7/74/7488E820F21B335E8AF84B018E3D072C.jpg","网络图片实例1"));
-			imageList.add(new EmrImageBean("http://pic.52che.com/beauty/10/12/02/152934187726.jpg","网络图片实例2"));
+//			imageList.add(new EmrImageBean("http://img1.cache.netease.com/catchpic/7/74/7488E820F21B335E8AF84B018E3D072C.jpg","网络图片实例1"));
+//			imageList.add(new EmrImageBean("http://pic.52che.com/beauty/10/12/02/152934187726.jpg","网络图片实例2"));
 			imageList.add(new EmrImageBean("http://img.tuku.cn/file_big/201503/31a4399e290f4b24907b0f04bfb68eb6.jpg","网络图片实例3"));
+//			imageList.add(new EmrImageBean("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=804998278,3860262771&fm=21&gp=0.jpg","网络图片实例1"));
 		}
 		// 将点点加入到ViewGroup中
 		tips = new ImageView[imageList.size()];
@@ -195,7 +198,9 @@ public class ImageShowTestActivity extends Activity implements OnClickListener {
 
 				}
 			};
-			Bitmap cachedImage = loader.loadDrawable(url,callback);
+//			Bitmap cachedImage = loader.loadDrawable(url,callback);
+			Drawable draw1 = cxt.getResources().getDrawable(R.drawable.test);
+			Bitmap cachedImage  = BitmapUtil.drawableToBitmap(draw1);
 			if(cachedImage != null) {
 				progress.setVisibility(View.GONE);
 				full_image.setVisibility(View.VISIBLE);
