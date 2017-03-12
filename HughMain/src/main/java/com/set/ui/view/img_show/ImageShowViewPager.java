@@ -9,93 +9,89 @@ import android.view.View;
 import android.widget.ImageView;
 
 public class ImageShowViewPager extends ViewPager {
-	PointF last;
-	public TouchImageView mCurrentView;
+    PointF last;
+    public TouchImageView mCurrentView;
 
-	public ImageShowViewPager(Context context) {
-		super(context);
-	}
+    public ImageShowViewPager(Context context) {
+        super(context);
+    }
 
-	public ImageShowViewPager(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public ImageShowViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-	private float[] handleMotionEvent(MotionEvent event) {
-		switch (event.getAction() & MotionEvent.ACTION_MASK) {
-		case MotionEvent.ACTION_DOWN:
-			last = new PointF(event.getX(0), event.getY(0));
-			break;
-		case MotionEvent.ACTION_MOVE:
-		case MotionEvent.ACTION_UP:
-			PointF curr = new PointF(event.getX(0), event.getY(0));
-			return new float[] { curr.x - last.x, curr.y - last.y };
+    private float[] handleMotionEvent(MotionEvent event) {
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                last = new PointF(event.getX(0), event.getY(0));
+                break;
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+                PointF curr = new PointF(event.getX(0), event.getY(0));
+                return new float[]{curr.x - last.x, curr.y - last.y};
 
-		}
-		return null;
-	}
+        }
+        return null;
+    }
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		try {
-			if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-				super.onTouchEvent(event);
-			}
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                super.onTouchEvent(event);
+            }
 
-			float[] difference = handleMotionEvent(event);
+            float[] difference = handleMotionEvent(event);
 
-			if (mCurrentView.pagerCanScroll()) {
-				return super.onTouchEvent(event);
-			} else {
-				if (difference != null && mCurrentView.onRightSide && difference[0] < 0) // move
-																							// right
-				{
-					return super.onTouchEvent(event);
-				}
-				if (difference != null && mCurrentView.onLeftSide && difference[0] > 0) // move
-																						// left
-				{
-					return super.onTouchEvent(event);
-				}
-				if (difference == null && (mCurrentView.onLeftSide || mCurrentView.onRightSide)) {
-					return super.onTouchEvent(event);
-				}
-			}
+            if (mCurrentView.pagerCanScroll()) {
+                return super.onTouchEvent(event);
+            } else {
+                if (difference != null && mCurrentView.onRightSide && difference[0] < 0) // move right
+                {
+                    return super.onTouchEvent(event);
+                }
+                if (difference != null && mCurrentView.onLeftSide && difference[0] > 0) // move left
+                {
+                    return super.onTouchEvent(event);
+                }
+                if (difference == null && (mCurrentView.onLeftSide || mCurrentView.onRightSide)) {
+                    return super.onTouchEvent(event);
+                }
+            }
 
-		} catch (Exception e) {
-		}
-		
-		return false;
-	}
+        } catch (Exception e) {
+        }
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
-		try {
-			if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-				super.onInterceptTouchEvent(event);
-			}
+        return false;
+    }
 
-			float[] difference = handleMotionEvent(event);
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        try {
+            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                super.onInterceptTouchEvent(event);
+            }
 
-			if (mCurrentView.pagerCanScroll()) {
-				return super.onInterceptTouchEvent(event);
-			} else {
-				if (difference != null && mCurrentView.onRightSide && difference[0] < 0) // move
-																							// right
-				{
-					return super.onInterceptTouchEvent(event);
-				}
-				if (difference != null && mCurrentView.onLeftSide && difference[0] > 0) // move
-																						// left
-				{
-					return super.onInterceptTouchEvent(event);
-				}
-				if (difference == null && (mCurrentView.onLeftSide || mCurrentView.onRightSide)) {
-					return super.onInterceptTouchEvent(event);
-				}
-			}
-		} catch (Exception e) {
-		}
-		
-		return false;
-	}
+            float[] difference = handleMotionEvent(event);
+
+            if (mCurrentView.pagerCanScroll()) {
+                return super.onInterceptTouchEvent(event);
+            } else {
+                if (difference != null && mCurrentView.onRightSide && difference[0] < 0) // move right
+                {
+                    return super.onInterceptTouchEvent(event);
+                }
+                if (difference != null && mCurrentView.onLeftSide && difference[0] > 0) // move  left
+                {
+                    return super.onInterceptTouchEvent(event);
+                }
+                if (difference == null && (mCurrentView.onLeftSide || mCurrentView.onRightSide)) {
+                    return super.onInterceptTouchEvent(event);
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        return false;
+    }
 }

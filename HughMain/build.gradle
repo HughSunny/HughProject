@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "set.com.hughproject"
         minSdkVersion 11
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -22,16 +22,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.android.support:design:23.3.0'
-    compile 'com.android.support:appcompat-v7:23.3.0'
     compile files('src/main/libs/greendao-1.3.7.jar')
     compile files('src/main/libs/universal-image-loader-1.8.6-with-sources.jar')
     //annotationProcessor 取代apt
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.0'
     compile 'com.jakewharton:butterknife:8.5.0'
-
     compile project(':HughWork')
 }
