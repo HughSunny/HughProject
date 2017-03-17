@@ -13,7 +13,6 @@ import android.widget.Scroller;
 
 /**
  *
- * @author xiaanming
  *
  */
 public class SlideCutListView extends ListView {

@@ -4,14 +4,12 @@
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"
-  android:background="#fff"
-  >
+  android:background="#fff" >
   
   <com.set.ui.list.HorizontialListView
   	android:id="@+id/listview"
   	android:layout_width="fill_parent"
   	android:layout_height="wrap_content"
-  	android:background="#ddd"
-  />
+  	android:background="#ddd" />
   
 </LinearLayout>

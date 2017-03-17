@@ -16,8 +16,7 @@ public class HorizontalListViewTest extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.listviewdemo);
+		setContentView(R.layout.activity_test_horizontial_listview);
 		HorizontialListView listview = (HorizontialListView) findViewById(R.id.listview);
 		listview.setAdapter(mAdapter);
 //		setContentView(new HorCombineListView(this, null));
