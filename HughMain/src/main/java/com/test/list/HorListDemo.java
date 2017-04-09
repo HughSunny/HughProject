@@ -22,7 +22,7 @@ public class HorListDemo extends Activity {
 		setContentView(R.layout.hor_list);
 		headerView = (LinearLayout)findViewById(R.id.item_scroll_content);
 		listView = (HVListView)findViewById(R.id.hor_list);
-		listView.setTitleView(headerView);
+		listView.setmTitleView(headerView);
 		HorScrollListAdapter adapter = new HorScrollListAdapter(this);
 		adapter.setListView(listView);
 		listView.setAdapter(adapter);	

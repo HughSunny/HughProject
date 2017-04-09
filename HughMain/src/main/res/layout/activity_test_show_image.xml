@@ -35,12 +35,12 @@
 	    android:gravity="center"
 	    android:padding="2dp"
 	    android:textSize="@dimen/text_nomal_size"/>
-	<com.set.ui.view.img_show.ImageShowViewPager
+	<set.work.view.img_show.ImageShowViewPager
 		android:layout_below="@id/text_img_name"
 		android:id="@+id/viewPager"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" >
-	</com.set.ui.view.img_show.ImageShowViewPager>
+	</set.work.view.img_show.ImageShowViewPager>
 
     <LinearLayout
         android:id="@+id/viewGroup"

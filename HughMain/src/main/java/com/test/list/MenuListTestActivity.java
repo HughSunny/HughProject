@@ -23,6 +23,7 @@ import java.util.List;
 
 /**
  * 有子菜单列表测试
+ * 测试成功
  */
 public class MenuListTestActivity extends Activity implements SlideAndDragListView.OnListItemLongClickListener,
         SlideAndDragListView.OnDragListener, SlideAndDragListView.OnSlideListener,

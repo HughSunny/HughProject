@@ -18,39 +18,39 @@
         android:id="@+id/plxcck_xm"
         style="@style/plxf_item_txt"
         android:layout_width="185dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="姓名" />
 
     <LinearLayout android:id="@+id/item_scroll_content"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent" >
 
         <TextView
             android:id="@+id/plxcck_sj"
             style="@style/plxf_item_txt"
             android:layout_width="185dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="时间" />
 
         <TextView
             android:id="@+id/plxcck_zx"
             style="@style/plxf_item_txt"
             android:layout_width="165dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="执行信息" />
 
         <TextView
             android:id="@+id/plxcck_zxr"
             style="@style/plxf_item_txt"
             android:layout_width="185dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="执行人" />
 
         <TextView
             android:id="@+id/plxcck_zt"
             style="@style/plxf_item_txt"
             android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="状态" />
     </LinearLayout>
 

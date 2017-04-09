@@ -1,7 +1,4 @@
-package com.set.ui.view.img_show;
-import java.lang.ref.WeakReference;
-import java.util.Timer;
-import java.util.TimerTask;
+package set.work.view.img_show;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -9,11 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.PixelFormat;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +17,10 @@ import android.view.ScaleGestureDetector;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import set.work.utils.LogUtil;
 
@@ -87,7 +84,7 @@ public class TouchImageView extends ImageView {
     private OnClickListener mOnClickListener;
     private Object mScaleDetector;
     private Handler mTimerHandler = null;
-    VelocityTracker mVelocityTracker;
+    private VelocityTracker mVelocityTracker;
     private boolean isWidthMainScale = false;
     // Scale mode on DoubleTap
     private boolean zoomToOriginalSize = false;

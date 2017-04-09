@@ -82,9 +82,9 @@ public class HorScrollListAdapter extends BaseAdapter {
         
         if (listView != null && listView instanceof HVListView) {
 			int headx = ((HVListView)listView).getHeadScrollX();
-			if (convertView.getScrollX() != headx) {
-				((ViewGroup)convertView).getChildAt(HVListView.SCORLL_INDEX).scrollTo(headx, 0);;
-//				convertView.scrollTo(headx, 0);
+			View scrollLayout = ((ViewGroup)convertView).getChildAt(HVListView.SCORLL_INDEX);
+			if (scrollLayout.getScrollX() != headx) {
+				scrollLayout.scrollTo(headx, 0);
 			}
 		}
 		return convertView;

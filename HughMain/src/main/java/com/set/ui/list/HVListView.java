@@ -29,7 +29,7 @@ public class HVListView extends ListView {
 	private float firstY;
 	private boolean isMoved = false;
 	public int maxScrollWidth = 0;
-	private View titleView ;
+	private View mTitleView;
 	private int wholeWidth;
 	public static final int SCORLL_INDEX = 2;
 	private int otherScrollX = 0;
@@ -42,12 +42,12 @@ public class HVListView extends ListView {
 
 	@Override
 	public void computeScroll() {
-		if (!((mScroller.computeScrollOffset()) && (titleView != null))) {
+		if (!((mScroller.computeScrollOffset()) && (mTitleView != null))) {
 			return;
 		}
 		boolean needAboat = false;
 		int scrollX = mScroller.getCurrX();
-		int titleScrollX = titleView.getScrollX();
+		int titleScrollX = mTitleView.getScrollX();
 		Log.i(TAG, "computeScroll -- scrollX = " + scrollX + "  ; titleScrollX == " + titleScrollX + " ; otherScrollX = " + otherScrollX);
 		Log.i(TAG, "computeScroll -- mScroller.getStartX = " + mScroller.getStartX() + "  ; mScroller.getFinalX() == " + mScroller.getFinalX() + "");
 		int dx = 0;
@@ -64,8 +64,8 @@ public class HVListView extends ListView {
 			needAboat = true;
 			dx = maxScrollWidth - titleScrollX;
 		}
-		Log.i(TAG, "computeScroll -- scrollX   dx= " + dx + "  ; maxScrollWidth == " + maxScrollWidth );
-		titleView.scrollBy(dx, 0);
+//		Log.i(TAG, "computeScroll -- scrollX   dx= " + dx + "  ; maxScrollWidth == " + maxScrollWidth );
+		mTitleView.scrollBy(dx, 0);
 		int childCount = getChildCount();
 		for (int j = 0; j < childCount; j++) {
 			getScrollItem(j).scrollBy(dx, 0);
@@ -87,20 +87,20 @@ public class HVListView extends ListView {
 	 */
 	private void scrollEnd(){
 		if(!isScrollMove) return;
-		ViewGroup view = (ViewGroup)titleView;
+		ViewGroup view = (ViewGroup) mTitleView;
 		for (int i = 1; i < view.getChildCount(); i++) {
 			View item = view.getChildAt(i);
-			if(item.getLeft() - titleView.getScrollX() < titleView.getWidth() && 
-					item.getRight() - titleView.getScrollX() > titleView.getWidth()){
-				int x = item.getLeft()- titleView.getScrollX() - titleView.getWidth() + item.getWidth() / 2;
+			if(item.getLeft() - mTitleView.getScrollX() < mTitleView.getWidth() &&
+					item.getRight() - mTitleView.getScrollX() > mTitleView.getWidth()){
+				int x = item.getLeft()- mTitleView.getScrollX() - mTitleView.getWidth() + item.getWidth() / 2;
 				if(x < 0){
 					//需要显示全部item
-					x = item.getRight()- titleView.getScrollX() - titleView.getWidth();
-					mScroller.startScroll(titleView.getScrollX(), 0, x, 0, 500);
+					x = item.getRight()- mTitleView.getScrollX() - mTitleView.getWidth();
+					mScroller.startScroll(mTitleView.getScrollX(), 0, x, 0, 500);
 					postInvalidate();
 				}else{
-					x = item.getLeft()- titleView.getScrollX() - titleView.getWidth();
-					mScroller.startScroll(titleView.getScrollX(), 0,  x, 0, 500);
+					x = item.getLeft()- mTitleView.getScrollX() - mTitleView.getWidth();
+					mScroller.startScroll(mTitleView.getScrollX(), 0,  x, 0, 500);
 					postInvalidate();
 				}
 				isScrollMove = false;
@@ -162,12 +162,12 @@ public class HVListView extends ListView {
 	}
 
 	private synchronized void scrollRow(float scrollx) {
-		if (titleView == null) {
+		if (mTitleView == null) {
 			return;
 		}
 		getMaxScrollWidth();
 		int i = (int) (scrollx - firstX);
-		int j = titleView.getScrollX();
+		int j = mTitleView.getScrollX();
 		
 		if (j - i < 0) {
 			i = j;
@@ -175,7 +175,7 @@ public class HVListView extends ListView {
 		if (j - i > maxScrollWidth) {
 			i = j - maxScrollWidth;
 		}
-		titleView.scrollBy(-i, 0);
+		mTitleView.scrollBy(-i, 0);
 		int count = getChildCount();
 		for (int m = 0; m < count; m++) {
 			getScrollItem(m).scrollBy(-i, 0);
@@ -227,7 +227,7 @@ public class HVListView extends ListView {
 				if (!mScroller.isFinished())
 					mScroller.abortAnimation();
 				isScrollMove = true;
-				mScroller.fling(titleView.getScrollX(), titleView.getScrollY(), -velocityX, 0, 0,maxScrollWidth, 0, 10);
+				mScroller.fling(mTitleView.getScrollX(), mTitleView.getScrollY(), -velocityX, 0, 0,maxScrollWidth, 0, 10);
 //				mScroller.startScroll(0, 0, -(velocityX / 10), 0, Math.abs(velocityX / 5));
 				if (isMoved) {
 //					if (tempView != null) {
@@ -264,36 +264,40 @@ public class HVListView extends ListView {
 		return super.onTouchEvent(event);
 	}
 
+	public void onViewTouch(){
+
+	}
+
 	public void getMaxScrollWidth() {
 		if (maxScrollWidth != 0)
 			return;
-		int count = ((ViewGroup) titleView).getChildCount();
+		int count = ((ViewGroup) mTitleView).getChildCount();
 		for (int j = 0; j < count; j++) {
-			View localView = ((ViewGroup) titleView).getChildAt(j);
-			if (localView.getVisibility() == 0)
+			View localView = ((ViewGroup) mTitleView).getChildAt(j);
+			if (localView.getVisibility() == VISIBLE)
 				maxScrollWidth += localView.getMeasuredWidth();
 		}
-		maxScrollWidth -= titleView.getWidth();
+		maxScrollWidth -= mTitleView.getWidth();
 	}
 
 	public void getWholeWidth() {
 		if (wholeWidth != 0)
 			return;
-		ViewGroup title = (ViewGroup) titleView;
+		ViewGroup title = (ViewGroup) mTitleView;
 		for (int i = 0; i > title.getChildCount() ; i++) {
-			if (title.getChildAt(i).getVisibility() == 0)
+			if (title.getChildAt(i).getVisibility() == VISIBLE)
 				wholeWidth += title.getChildAt(i).getWidth();
 		}
 	}
 	
-	public void setTitleView(View titleView) {
+	public void setmTitleView(View mTitleView) {
 		maxScrollWidth = 0;
-		this.titleView = titleView;
+		this.mTitleView = mTitleView;
 	}
 	
 	/** 获取列头偏移量 */
 	public int getHeadScrollX() {
-		return titleView.getScrollX();
+		return mTitleView.getScrollX();
 	}
 
 	public void scrollHor(int dx) {

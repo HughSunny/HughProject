@@ -10,6 +10,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.ViewGroup.LayoutParams;
 
+/**
+ * 扩展列表
+ */
 public class ExpandListTest extends Activity {
 	UIExpandableListView listview;
 	@Override

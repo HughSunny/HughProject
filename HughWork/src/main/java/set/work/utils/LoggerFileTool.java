@@ -12,7 +12,7 @@ public class LoggerFileTool {
 	private static Logger gLogger = null;
 	public static boolean isprint = true;
 	private static String FILE_PATH = EquipmentInfo.getSDCardSavePath()
-			+ File.separator + "log" + File.separator;
+			+ File.separator + "LOG" + File.separator;
 	public LoggerFileTool(Object object) {
 		Date data = new Date();
 		String fileDate = ConvertUtil.dateYMD.format(data);

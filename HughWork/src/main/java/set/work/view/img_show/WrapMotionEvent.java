@@ -1,4 +1,4 @@
-package com.set.ui.view.img_show;
+package set.work.view.img_show;
 
 import android.view.MotionEvent;
 
