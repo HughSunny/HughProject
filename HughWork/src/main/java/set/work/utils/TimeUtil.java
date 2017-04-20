@@ -97,6 +97,18 @@ public class TimeUtil {
     }
 
     /**
+     * time format "00:00:00"
+     * */
+    public static String longTime2Counter(long time) {
+        int hours = (int)(time/1440000);
+        int curMinutes = (int)(time/60000);
+        int curSecond= (int)Math.ceil(time%60000/1000);
+        return (hours == 0? "": (hours < 10?("0" + hours +":"):hours+":"))
+                + (curMinutes < 10?("0" + curMinutes):curMinutes+"")
+                + ":"+ (curSecond < 10 ? ("0" + curSecond):curSecond+"");
+    }
+
+    /**
      * long 转成 GMT
      * @param milliseconds
      * @return

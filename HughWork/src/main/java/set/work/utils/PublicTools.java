@@ -1,7 +1,6 @@
 package set.work.utils;
 
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.content.Context;
@@ -12,23 +11,9 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
-import android.hardware.Camera;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-import android.util.Xml;
-
-import org.xmlpull.v1.XmlSerializer;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 public class PublicTools {
 	private static final String TAG = "PublicTools";

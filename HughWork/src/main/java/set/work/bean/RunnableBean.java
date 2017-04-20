@@ -1,9 +1,9 @@
 package set.work.bean;
 
-import java.util.Vector;
-
 import set.work.thread.BaseRunnable;
 import set.work.thread.RequestBack;
+
+import java.util.Vector;
 
 /**
  * 存放线程的模型

@@ -1,10 +1,14 @@
 package set.work.bean;
 
-import java.io.Serializable;
-
 import set.work.thread.BaseRequestRunnable;
 
+import java.io.Serializable;
+
 public class ResultBean implements Serializable {
+	public static final int STATUS_DONE = 1;
+	public static final int STATUS_NULL= 0;
+	public static final int STATUS_DOING = 3;
+	public static final int STATUS_ERROR= 2;
 	public static final int TYPE_STR = 1;
 	public static final int TYPE_INT = 2;
 	public static int type = TYPE_STR;//类型
@@ -13,6 +17,7 @@ public class ResultBean implements Serializable {
 	private BaseRequestRunnable runnable;
 	/** 通过头判断是否属于成功的请求结果 */
 	private boolean success = true;
+	private int retStatus;
 	public ResultBean(RequestListBean bean, String resultString, BaseRequestRunnable runnable) {
 		this.requestBean = bean;
 		this.resultString = resultString;
@@ -22,7 +27,6 @@ public class ResultBean implements Serializable {
 	public String getResultString() {
 		return resultString;
 	}
-
 	public void setResultString(String resultString) {
 		this.resultString = resultString;
 	}
@@ -51,6 +55,14 @@ public class ResultBean implements Serializable {
 
 	public void setRequestBean(RequestListBean requestBean) {
 		this.requestBean = requestBean;
+	}
+
+	public int getRetStatus() {
+		return retStatus;
+	}
+
+	public void setRetStatus(int retStatus) {
+		this.retStatus = retStatus;
 	}
 
 	public void clear()  {

@@ -490,7 +490,6 @@ public class BitmapUtil {
 
         return output;
     }
-
     public static Bitmap getGrayscale(Bitmap bmpOriginal) {
         int width, height;
         height = bmpOriginal.getHeight();

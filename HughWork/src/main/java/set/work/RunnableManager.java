@@ -1,12 +1,12 @@
 package set.work;
 
-import java.util.Vector;
-
 import set.work.bean.RunnableBean;
 import set.work.thread.BaseRequestRunnable;
 import set.work.thread.BaseRunnable;
 import set.work.thread.RequestBack;
 import set.work.utils.LogUtil;
+
+import java.util.Vector;
 
 
 /**

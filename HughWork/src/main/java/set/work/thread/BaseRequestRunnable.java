@@ -3,8 +3,8 @@ package set.work.thread;
 import set.work.bean.RequestListBean;
 import set.work.bean.ResultBean;
 import set.work.handler.ListenHandler;
-import set.work.utils.FinalStrings;
 import set.work.utils.LogUtil;
+import set.work.utils.FinalStrings;
 
 public abstract class BaseRequestRunnable extends BaseRunnable{
 	protected static int CONNECT_TIMEOUT = 30000;

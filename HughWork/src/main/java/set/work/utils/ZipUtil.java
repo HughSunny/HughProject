@@ -215,17 +215,17 @@ public class ZipUtil {
 
     public static void main(String[] args)
     {
-        String zipPath = "/Users/Hugh/Desktop/java/test";
-        String dir = "/Users/Hugh/Desktop/java/test/test";
-        String zipFileName = "test.zip";
-        try {
-            zip(dir, zipPath, zipFileName);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String zipPath = "/Users/Hugh/Desktop/java/test";
+//        String dir = "/Users/Hugh/Desktop/java/test/test";
+//        String zipFileName = "test.zip";
+//        try {
+//            zip(dir, zipPath, zipFileName);
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        String zipFilePath = "/Users/Hugh/Desktop/java/test/test.zip";
+        String zipFilePath = "/Users/Hugh/Desktop/java/test/PatientData_0007.zip";
         String unzipFilePath = "/Users/Hugh/Desktop/java/test/zipPath";
         try {
             unzip(zipFilePath, unzipFilePath, false);
@@ -234,12 +234,12 @@ public class ZipUtil {
             e.printStackTrace();
         }
 
-        String zipFile = "/Users/Hugh/Desktop/java/test/DictDepartment.zip";
-        try {
-            unzip(zipFile, unzipFilePath, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String zipFile = "/Users/Hugh/Desktop/java/test/DictDepartment.zip";
+//        try {
+//            unzip(zipFile, unzipFilePath, true);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

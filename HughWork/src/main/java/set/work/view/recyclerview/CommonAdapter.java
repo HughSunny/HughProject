@@ -3,10 +3,11 @@ package set.work.view.recyclerview;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import java.util.List;
 
 import set.work.view.recyclerview.base.ItemViewDelegate;
 import set.work.view.recyclerview.base.ViewHolder;
+
+import java.util.List;
 
 /**
  *

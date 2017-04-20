@@ -5,16 +5,17 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import set.work.utils.ActivityCollector;
+import set.work.utils.ConvertUtil;
+import set.work.utils.EquipmentInfo;
+import set.work.utils.LogUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Date;
-
-import set.work.utils.ConvertUtil;
-import set.work.utils.EquipmentInfo;
-import set.work.utils.LogUtil;
 
 /**
  * 异常捕捉
@@ -42,10 +43,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler  {
         mCatchListen = listener;
     }
 
-    public interface CrashExceptionListener{
-        void onExceptionResult(Throwable ex);
-        String getErrorExInfo(String exStr);
-    }
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
@@ -61,6 +58,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler  {
                 Log.e(TAG, "error : ", e);
             }
             //退出程序
+            ActivityCollector.release();
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(0);
             if (mCatchListen != null) {
@@ -140,4 +138,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler  {
         }
         return null;
     }
+
+    public interface CrashExceptionListener{
+        void onExceptionResult(Throwable ex);
+        String getErrorExInfo(String exStr);
+    }
+
+
 }

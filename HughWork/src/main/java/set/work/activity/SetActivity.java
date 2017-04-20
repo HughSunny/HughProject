@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 
 import set.work.app.BaseApp;
+import set.work.utils.ActivityCollector;
 import set.work.utils.ApplicationUtil;
 
 public abstract class SetActivity extends Activity{
@@ -12,11 +13,13 @@ public abstract class SetActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		ActivityCollector.registry(this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		ActivityCollector.deRegistry(this);
 	}
 
 

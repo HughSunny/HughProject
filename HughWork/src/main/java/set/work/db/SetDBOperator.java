@@ -6,15 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import set.work.bean.RequestListBean;
+import set.work.utils.LogUtil;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import set.work.bean.RequestListBean;
-import set.work.utils.LogUtil;
 
 
 public class SetDBOperator {

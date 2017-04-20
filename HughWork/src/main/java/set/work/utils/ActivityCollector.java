@@ -28,8 +28,11 @@ public class ActivityCollector {
 	 * 说明：释放
 	 */
 	public static void release() {
-		for (int i = 0, size = activitys.size(); i < size; i++)
-			activitys.get(i).finish();
+		for (int i = 0, size = activitys.size(); i < size; i++){
+			if (!activitys.get(i).isFinishing()) {
+				activitys.get(i).finish();
+			}
+		}
 		activitys.clear();
 	}
 
@@ -70,7 +73,7 @@ public class ActivityCollector {
 	}
 
 	/**
-	 * 说明：释放至主界�?
+	 * 说明：释放至主界面
 	 */
 	public static void releaseToMain() {
 		for (int i = 3, size = activitys.size(); i < size; i++) {

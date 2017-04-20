@@ -1,5 +1,9 @@
 package set.work.thread;
 
+import set.work.bean.RequestListBean;
+import set.work.bean.ResultBean;
+import set.work.handler.ListenHandler;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -7,10 +11,6 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.Iterator;
 import java.util.Map;
-
-import set.work.bean.RequestListBean;
-import set.work.bean.ResultBean;
-import set.work.handler.ListenHandler;
 
 public class SoapRunnable extends BaseRequestRunnable {
 	private String name_space;

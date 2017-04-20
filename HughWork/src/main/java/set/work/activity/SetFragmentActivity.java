@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Window;
 
 import set.work.app.BaseApp;
 import set.work.fragment.SetFragment;
 import set.work.listener.BackHandledInterface;
+import set.work.utils.ActivityCollector;
 import set.work.utils.ApplicationUtil;
 import set.work.utils.LogUtil;
 
@@ -21,6 +23,13 @@ public class SetFragmentActivity extends FragmentActivity implements BackHandled
 	private int contentId ;
 	/** fragment 能不能返回出栈 对应 */
 	public boolean fragCanNotBack;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		ActivityCollector.registry(this);
+	}
+
 	@Override
 	public void setSelectedFragment(Fragment selectedFragment) {
 		LogUtil.logE(TAG,">>>>> setSelectedFragment");
@@ -109,8 +118,8 @@ public class SetFragmentActivity extends FragmentActivity implements BackHandled
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		ActivityCollector.deRegistry(this);
 	}
-
 	@Override
 	protected void onPause(){
 		super.onPause();

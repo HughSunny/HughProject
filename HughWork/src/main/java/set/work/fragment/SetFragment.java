@@ -6,12 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import java.lang.reflect.Field;
-
 import set.work.RunnableManager;
 import set.work.handler.ProgressListenHandler;
 import set.work.listener.BackHandledInterface;
 import set.work.thread.RequestBack;
+
+import java.lang.reflect.Field;
 
 public abstract class SetFragment extends Fragment implements RequestBack{
 	protected ProgressListenHandler handler;
@@ -83,7 +83,7 @@ public abstract class SetFragment extends Fragment implements RequestBack{
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (activity instanceof  FragCallBack) {
+		if (activity instanceof FragCallBack) {
 			fragCallBack = (FragCallBack)activity;
 		}
 	}

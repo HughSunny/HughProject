@@ -24,7 +24,6 @@ public class MapUtil {
         if (map == null || map.size() == 0) {
             return true;
         }
-
         return false;
     }
 

@@ -395,6 +395,20 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 重命名
+     * @param fromFile
+     * @param toFile
+     * @return
+     */
+    public static boolean renameFile(String fromFile, String toFile) {
+        boolean renameSuccess = false;
+        File fFile = new File(fromFile);
+        if (fFile.exists()) {
+            renameSuccess = fFile.renameTo(new File(toFile));
+        }
+        return renameSuccess;
+    }
 
 
 

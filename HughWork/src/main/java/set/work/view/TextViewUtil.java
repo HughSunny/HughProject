@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import org.apache.log4j.lf5.util.Resource;
+
 /**
  * Created by Hugh on 2017/3/13.
  */

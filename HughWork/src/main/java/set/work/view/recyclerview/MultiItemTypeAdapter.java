@@ -5,11 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import set.work.view.recyclerview.base.ItemViewDelegate;
 import set.work.view.recyclerview.base.ItemViewDelegateManager;
 import set.work.view.recyclerview.base.ViewHolder;
+
+import java.util.List;
 
 /**
  *
@@ -113,9 +113,9 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public interface CommItemClickListener {
-        void onItemClick(View view, RecyclerView.ViewHolder holder, int position);
+        void onItemClick(View view, RecyclerView.ViewHolder holder,  int position);
 
-        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position);
+        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder,  int position);
     }
 
     public void setOnItemClickListener(CommItemClickListener onItemClickListener) {

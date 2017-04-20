@@ -11,8 +11,8 @@ import set.work.RunnableManager;
 import set.work.bean.ResultBean;
 import set.work.db.SetDBOperator;
 import set.work.thread.RequestBack;
-import set.work.utils.FinalStrings;
 import set.work.utils.LogUtil;
+import set.work.utils.FinalStrings;
 
 /**
  * 连接工作线程和UI线程的Handler
