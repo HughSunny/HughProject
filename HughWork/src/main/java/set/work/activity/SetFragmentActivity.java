@@ -70,19 +70,18 @@ public class SetFragmentActivity extends FragmentActivity implements BackHandled
 	}
 
 	public void switchContent(SetFragment from, SetFragment to, boolean addstack, String tag) {
-		if (mBackHandedFragment != to) {
-			mBackHandedFragment = to;
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
-					.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-			if (!to.isAdded()) { // 先判断是否被add过
-				if (addstack) {
-					transaction.addToBackStack(null);
-				}
-				transaction.hide(from).add(contentId, to, tag).commit(); // 隐藏当前的fragment，add下一个到Activity中
-			} else {
-				transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+		mBackHandedFragment = to;
+		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+				.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+		if (!to.isAdded()) { // 先判断是否被add过
+			if (addstack) {
+				transaction.addToBackStack(null);
 			}
+			transaction.hide(from).add(contentId, to, tag).commit(); // 隐藏当前的fragment，add下一个到Activity中
+		} else {
+			transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
 		}
+
 	}
 
 	public void setContentId(int contentId) {

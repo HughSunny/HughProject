@@ -4,7 +4,7 @@ import set.work.thread.BaseRequestRunnable;
 
 import java.io.Serializable;
 
-public class ResultBean implements Serializable {
+public class ResultBean<T> implements Serializable {
 	public static final int STATUS_DONE = 1;
 	public static final int STATUS_NULL= 0;
 	public static final int STATUS_DOING = 3;
@@ -13,6 +13,7 @@ public class ResultBean implements Serializable {
 	public static final int TYPE_INT = 2;
 	public static int type = TYPE_STR;//类型
 	private RequestListBean requestBean;
+	private T result;
 	private String resultString;
 	private BaseRequestRunnable runnable;
 	/** 通过头判断是否属于成功的请求结果 */
@@ -30,6 +31,12 @@ public class ResultBean implements Serializable {
 	public void setResultString(String resultString) {
 		this.resultString = resultString;
 	}
+
+	public T getResult(){
+		return result;
+	}
+
+
 	public Object getRequestId() {
 		return requestBean.getRequestId();
 	}

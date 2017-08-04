@@ -27,6 +27,7 @@ public class ListenHandler extends Handler {
 
     public ListenHandler(Looper looper, Context context, RequestBack back) {
         super(looper);
+        //工作线程的监听
         this.context = context;
         this.callback = back;
     }

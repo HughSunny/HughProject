@@ -83,19 +83,22 @@ public class EquipmentInfo {
 		String path = null;
 		File sdCardFile = null;
 		ArrayList<String> devMountList = getDevMountList();
-		for (String devMount : devMountList) {
-			File file = new File(devMount);
-			if (file.isDirectory() && file.canWrite()) {
-				path = file.getAbsolutePath();
-				String timeStamp = ConvertUtil.dateYMDHM.format(TimeUtil.getDate());
-				File testWritable = new File(path, "test_" + timeStamp);
-				if (testWritable.mkdirs()) {
-					testWritable.delete();
-				} else {
-					path = null;
+		if (devMountList != null) {
+			for (String devMount : devMountList) {
+				File file = new File(devMount);
+				if (file.isDirectory() && file.canWrite()) {
+					path = file.getAbsolutePath();
+					String timeStamp = ConvertUtil.dateYMDHM.format(TimeUtil.getDate());
+					File testWritable = new File(path, "test_" + timeStamp);
+					if (testWritable.mkdirs()) {
+						testWritable.delete();
+					} else {
+						path = null;
+					}
 				}
 			}
 		}
+
 		if (path != null) {
 			savePath = path + File.separator + APP_NAME + File.separator;
 			File dir = new File(savePath);

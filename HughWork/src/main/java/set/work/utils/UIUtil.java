@@ -72,11 +72,19 @@ public class UIUtil {
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
-        Log.w(TAG, "==================> listData local height  =" + listView.getHeight() );
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = getListViewHeightBasedOnChildren(listView);
+        listView.setLayoutParams(params);
+        Log.w(TAG, "================== > listData height  =" + params.height );
+    }
+
+
+
+    public static int getListViewHeightBasedOnChildren(ListView listView) {
         // 获取ListView对应的Adapter
         BaseAdapter listAdapter = (BaseAdapter) listView.getAdapter();
         if (listAdapter == null) {
-            return;
+            return 0;
         }
         int totalHeight = 0;
         for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
@@ -86,12 +94,10 @@ public class UIUtil {
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight
+        return totalHeight
                 + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
-        listView.setLayoutParams(params);
-        Log.w(TAG, "================== > listData height  =" + totalHeight );
+
     }
 }

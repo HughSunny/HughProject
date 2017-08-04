@@ -22,7 +22,7 @@ import set.work.utils.FileUtil;
 /**
  * 下载
  */
-public class DownloadRunnable extends BaseRequestRunnable {
+public class HttpURLDownloadRunnable extends BaseRequestRunnable {
 
 	private static final String TAG = "Downloader";
 	private String reqUrl;// 下载路径
@@ -40,7 +40,7 @@ public class DownloadRunnable extends BaseRequestRunnable {
 	private static int sleepDelta = 100;
 	public static long EXTRA_SD_SPACE = 100*1024*1024;
 	public Handler updateHandler;
-	public DownloadRunnable(String url, ListenHandler handler, DownloadRequestBean requestBean) {
+	public HttpURLDownloadRunnable(String url, ListenHandler handler, DownloadRequestBean requestBean) {
 		super(handler, requestBean);
 		reqUrl = url;
 		savePath = requestBean.getFilePath();

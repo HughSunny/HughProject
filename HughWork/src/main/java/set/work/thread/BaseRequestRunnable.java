@@ -24,6 +24,14 @@ public abstract class BaseRequestRunnable extends BaseRunnable{
 		if (stop) {
 			return;
 		}
+		sendResult(getRunnableResult());
+	}
+
+	/**
+	 * 线程执行方法
+	 * @return 结果
+	 */
+	public ResultBean getRunnableResult(){
 		ResultBean result = new ResultBean(requestBean,null,this);
 		try {
 			processRunnable(result);
@@ -34,7 +42,7 @@ public abstract class BaseRequestRunnable extends BaseRunnable{
 			e.printStackTrace();
 			LogUtil.Error("BaseRequestRunnable", e.getMessage());
 		}
-		sendResult(result);
+		return result;
 	}
 
 	protected void sendResult(ResultBean result) {

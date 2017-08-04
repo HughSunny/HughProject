@@ -9,6 +9,7 @@ import set.work.utils.ActivityCollector;
 import set.work.utils.ConvertUtil;
 import set.work.utils.EquipmentInfo;
 import set.work.utils.LogUtil;
+import set.work.utils.StringUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,6 +35,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler  {
     }
 
     public static CrashHandler getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new CrashHandler();
+        }
         return INSTANCE;
     }
 
@@ -107,14 +111,18 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler  {
         }
         printWriter.close();
         String result = writer.toString();
-        if (mCatchListen != null && mCatchListen.getErrorExInfo(result) != null) {
-            String extInfo = mCatchListen.getErrorExInfo(result);
-            sb.append(extInfo);
+        String errorInfo = null;
+        if (mCatchListen != null ) {
+            errorInfo =  mCatchListen.getErrorExInfo(result);
+        }
+        if (!StringUtil.isEmpty(errorInfo)) {
+            sb.append(errorInfo);
         } else {
             sb.append(EquipmentInfo.getMobileInfo());
             sb.append(EquipmentInfo.getVersionInfo(mContext));
             sb.append(result);
         }
+
 
         try {
             long timestamp = System.currentTimeMillis();
