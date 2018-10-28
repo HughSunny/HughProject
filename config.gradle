@@ -1,0 +1,23 @@
+def support_version = '27.0.0'
+def ADT_VERSION = '28.0.3'
+ext {
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "$ADT_VERSION",
+            minSdkVersion    : 16,
+            targetSdkVersion : 27,
+//            versionCode      : 1,
+//            versionName      : "1.0.8.0"
+    ]
+    dependencies = [
+            "appcompat-v7"   : "com.android.support:appcompat-v7:$support_version",
+            "design"         : "com.android.support:design:$support_version",
+            "support_version": "$support_version"
+    ]
+
+    other = [
+//            "freeline_version": FREELINE_RELEASE_VERSION,
+//            "greendao":         GREENDAO_VERSION,
+            "gson" :            "2.5",
+    ]
+}
