@@ -20,7 +20,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.util.Log;
@@ -37,25 +39,39 @@ import java.io.OutputStream;
 /**
  * bitmap操作的工具类
  *
- * @author longtao.li 2012-10-18
- *
  */
 public class BitmapUtil {
 
-    private static final String TAG = "BitmapUtil";
+    private static final String TAG = BitmapUtil.class.getSimpleName();
     private static final int DEFAULT_COMPRESS_QUALITY = 90;
     private static final int INDEX_ORIENTATION = 0;
-
     private static final String[] IMAGE_PROJECTION = new String[] {
-        ImageColumns.ORIENTATION
+            ImageColumns.ORIENTATION
     };
 
-    private final Context context;
+    /**
+     * Drawable转化成bitmap
+     * @param drawable
+     * @return
+     */
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                        : Bitmap.Config.RGB_565);
 
-    public BitmapUtil(Context context) {
-        this.context = context;
+        Canvas canvas = new Canvas(bitmap);
+
+        //canvas.setBitmap(bitmap);
+
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+
+        drawable.draw(canvas);
+
+        return bitmap;
+
     }
-
     /**
      * Creates a mutable bitmap from subset of source bitmap, transformed by the optional matrix.
      */
@@ -92,7 +108,7 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    private void closeStream(Closeable stream) {
+    private static void closeStream(Closeable stream) {
         if (stream != null) {
             try {
                 stream.close();
@@ -102,27 +118,41 @@ public class BitmapUtil {
         }
     }
 
-    public Rect getBitmapBounds(byte[] data){
-    	Rect bounds = new Rect();
-    	try {
-    		BitmapFactory.Options options = new BitmapFactory.Options();
+    public static Rect getBitmapBounds(byte[] data){
+        Rect bounds = new Rect();
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(data, 0, data.length, options);
             bounds.right = options.outWidth;
             bounds.bottom = options.outHeight;
             Log.i(TAG, "options.outWidth="+options.outWidth+" , "+"options.outHeight="+options.outHeight);
-		} catch (Exception e) {
-		}finally {
+        } catch (Exception e) {
+        }finally {
         }
         return bounds;
     }
-    
-    public Rect getBitmapBounds(Uri uri) {
+
+    public static Rect getBitmapBounds(Context context, Uri uri) {
         Rect bounds = new Rect();
         InputStream is = null;
 
         try {
             is = context.getContentResolver().openInputStream(uri);
+            return getBitmapBounds(is,false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(is);
+        }
+
+        return bounds;
+    }
+
+    public static Rect getBitmapBounds(InputStream is, boolean isClose) {
+        Rect bounds = new Rect();
+
+        try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(is, null, options);
@@ -133,34 +163,14 @@ public class BitmapUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeStream(is);
+            if( isClose )
+                closeStream(is);
         }
 
         return bounds;
     }
-    
-    public Rect getBitmapBounds(InputStream is, boolean isClose) {
-    	Rect bounds = new Rect();
-    	
-    	try {
-    		BitmapFactory.Options options = new BitmapFactory.Options();
-    		options.inJustDecodeBounds = true;
-    		BitmapFactory.decodeStream(is, null, options);
-    		
-    		bounds.right = options.outWidth;
-    		bounds.bottom = options.outHeight;
-    		Log.i(TAG, "options.outWidth="+options.outWidth+" , "+"options.outHeight="+options.outHeight);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	} finally {
-    		if( isClose )
-    		   closeStream(is);
-    	}
-    	
-    	return bounds;
-    }
 
-    private int getOrientation(Uri uri) {
+    private int getOrientation(Context context, Uri uri) {
         int orientation = 0;
         Cursor cursor = null;
         try {
@@ -182,61 +192,11 @@ public class BitmapUtil {
      * Decodes bitmap (maybe immutable) that keeps aspect-ratio and spans most within the bounds.
      */
     public Bitmap decodeBitmapByStream(InputStream is, Rect bounds, int width, int height) {
-    	Log.i(TAG, "width = " + width + " , " + "height = " + height);
-    	Bitmap bitmap = null;
-    	try {
-    		// TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
-//    		Rect bounds = getBitmapBounds(is, false);
-    		int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
-    		sampleSize = Math.min(sampleSize,
-    				Math.max(bounds.width() / height, bounds.height() / width));
-    		
-    		BitmapFactory.Options options = new BitmapFactory.Options();
-    		options.inSampleSize = Math.max(sampleSize, 1);
-    		options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-    		
-    		Log.i(TAG, "sampleSize = " + sampleSize + " , " + "options.inSampleSize = " + options.inSampleSize);
-    		bitmap = BitmapFactory.decodeStream(is, null, options);//!!!!溢出
-    	} catch (Exception e) {
-    		Log.e(TAG, e.getMessage());
-    	} finally {
-    		closeStream(is);
-    	}
-    	
-    	// Ensure bitmap in 8888 format, good for editing as well as GL compatible.
-    	if ((bitmap != null) && (bitmap.getConfig() != Bitmap.Config.ARGB_8888)) {
-    		Bitmap copy = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-    		bitmap.recycle();
-    		bitmap = copy;
-    	}
-    	
-    	if (bitmap != null) {
-    		// Scale down the sampled bitmap if it's still larger than the desired dimension.
-    		float scale = Math.min((float) width / bitmap.getWidth(),
-    				(float) height / bitmap.getHeight());
-    		scale = Math.max(scale, Math.min((float) height / bitmap.getWidth(),
-    				(float) width / bitmap.getHeight()));
-    		if (scale < 1) {
-    			Matrix m = new Matrix();
-    			m.setScale(scale, scale);
-    			Bitmap transformed = createBitmap(
-    					bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m);
-    			bitmap.recycle();
-    			return transformed;
-    		}
-    	}
-    	return bitmap;
-    }
-    
-    /**
-     * Decodes bitmap (maybe immutable) that keeps aspect-ratio and spans most within the bounds.
-     */
-    public Bitmap decodeBitmap(byte[] data, int width, int height){
-    	Log.i(TAG, "width = " + width + " , " + "height = " + height);
+        Log.i(TAG, "width = " + width + " , " + "height = " + height);
         Bitmap bitmap = null;
         try {
             // TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
-            Rect bounds = getBitmapBounds(data);
+//    		Rect bounds = getBitmapBounds(is, false);
             int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
             sampleSize = Math.min(sampleSize,
                     Math.max(bounds.width() / height, bounds.height() / width));
@@ -246,11 +206,11 @@ public class BitmapUtil {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
             Log.i(TAG, "sampleSize = " + sampleSize + " , " + "options.inSampleSize = " + options.inSampleSize);
-            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);//!!!!溢出
+            bitmap = BitmapFactory.decodeStream(is, null, options);//!!!!溢出
         } catch (Exception e) {
-            Log.e(TAG,   e.getMessage());
+            Log.e(TAG, e.getMessage());
         } finally {
-        	data = null;
+            closeStream(is);
         }
 
         // Ensure bitmap in 8888 format, good for editing as well as GL compatible.
@@ -277,18 +237,68 @@ public class BitmapUtil {
         }
         return bitmap;
     }
-    
+
     /**
      * Decodes bitmap (maybe immutable) that keeps aspect-ratio and spans most within the bounds.
      */
-    private Bitmap decodeBitmap(Uri uri, int width, int height) {
-    	Log.i(TAG, "width = " + width + " , " + "height = " + height);
+    public Bitmap decodeBitmap(byte[] data, int width, int height){
+        Log.i(TAG, "width = " + width + " , " + "height = " + height);
+        Bitmap bitmap = null;
+        try {
+            // TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
+            Rect bounds = getBitmapBounds(data);
+            int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
+            sampleSize = Math.min(sampleSize,
+                    Math.max(bounds.width() / height, bounds.height() / width));
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = Math.max(sampleSize, 1);
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            Log.i(TAG, "sampleSize = " + sampleSize + " , " + "options.inSampleSize = " + options.inSampleSize);
+            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);//!!!!溢出
+        } catch (Exception e) {
+            Log.e(TAG,   e.getMessage());
+        } finally {
+            data = null;
+        }
+
+        // Ensure bitmap in 8888 format, good for editing as well as GL compatible.
+        if ((bitmap != null) && (bitmap.getConfig() != Bitmap.Config.ARGB_8888)) {
+            Bitmap copy = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            bitmap.recycle();
+            bitmap = copy;
+        }
+
+        if (bitmap != null) {
+            // Scale down the sampled bitmap if it's still larger than the desired dimension.
+            float scale = Math.min((float) width / bitmap.getWidth(),
+                    (float) height / bitmap.getHeight());
+            scale = Math.max(scale, Math.min((float) height / bitmap.getWidth(),
+                    (float) width / bitmap.getHeight()));
+            if (scale < 1) {
+                Matrix m = new Matrix();
+                m.setScale(scale, scale);
+                Bitmap transformed = createBitmap(
+                        bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m);
+                bitmap.recycle();
+                return transformed;
+            }
+        }
+        return bitmap;
+    }
+
+    /**
+     * Decodes bitmap (maybe immutable) that keeps aspect-ratio and spans most within the bounds.
+     */
+    public static Bitmap decodeBitmap(Context context, Uri uri, int width, int height) {
+        Log.i(TAG, "width = " + width + " , " + "height = " + height);
         InputStream is = null;
         Bitmap bitmap = null;
 
         try {
             // TODO: Take max pixels allowed into account for calculation to avoid possible OOM.
-            Rect bounds = getBitmapBounds(uri);
+            Rect bounds = getBitmapBounds(context, uri);
             int sampleSize = Math.max(bounds.width() / width, bounds.height() / height);
             sampleSize = Math.min(sampleSize,
                     Math.max(bounds.width() / height, bounds.height() / width));
@@ -301,6 +311,7 @@ public class BitmapUtil {
             Log.i(TAG, "sampleSize = " + sampleSize + " , " + "options.inSampleSize = " + options.inSampleSize);
             bitmap = BitmapFactory.decodeStream(is, null, options);//!!!!溢出
         } catch (Exception e) {
+
         } finally {
             closeStream(is);
         }
@@ -333,12 +344,12 @@ public class BitmapUtil {
     /**
      * Gets decoded bitmap that keeps orientation as well.
      */
-    public Bitmap getBitmap(Uri uri, int width, int height) {
-        Bitmap bitmap = decodeBitmap(uri, width, height);
+    public Bitmap getBitmap(Context context, Uri uri, int width, int height) {
+        Bitmap bitmap = decodeBitmap(context ,uri, width, height);
 
         // Rotate the decoded bitmap according to its orientation if it's necessary.
         if (bitmap != null) {
-            int orientation = getOrientation(uri);
+            int orientation = getOrientation(context, uri);
             if (orientation != 0) {
                 Matrix m = new Matrix();
                 m.setRotate(orientation);
@@ -359,7 +370,7 @@ public class BitmapUtil {
             Bitmap bitmap, String directory, String filename, CompressFormat format) {
 
         if (directory == null) {
-            directory = context.getCacheDir().getAbsolutePath();
+            directory = EquipmentInfo.getSDCardSavePath();
         } else {
             // Check if the given directory exists or try to create it.
             File file = new File(directory);
@@ -392,78 +403,105 @@ public class BitmapUtil {
      * @return
      */
     public static Bitmap zoomBitmap(Bitmap bitmap, float w, float h){
-    	int width = bitmap.getWidth();
-    	int height = bitmap.getHeight();
-    	Matrix matrix = new Matrix();
-    	float scaleW = (w / width);
-    	float scaleH = (h / height);
-    	matrix.postScale(scaleW, scaleH);
-    	Bitmap newBmp = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-    	        
-    	return newBmp;
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        float scaleW = (w / width);
+        float scaleH = (h / height);
+        matrix.postScale(scaleW, scaleH);
+        Bitmap newBmp = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+
+        return newBmp;
     }
-    
+
     public static Bitmap rotateBitmap(Bitmap bitmap, float degrees){
-    	 if (degrees != 0 && bitmap != null) {
-             Matrix m = new Matrix();
-             m.postRotate(degrees);
+        if (degrees != 0 && bitmap != null) {
+            Matrix m = new Matrix();
+            m.postRotate(degrees);
 //             m.setRotate(degrees,
 //                     (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-             try {
-                  bitmap = Bitmap.createBitmap(
-                		 bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
+            try {
+                bitmap = Bitmap.createBitmap(
+                        bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
 //                 if (bitmap != b2) {
 //                	 bitmap.recycle();  //Android开发网再次提示Bitmap操作完应该显示的释放
 //                	 bitmap = b2;
 //                 }
-             } catch (OutOfMemoryError ex) {
-                 // Android建议大家如果出现了内存不足异常，最好return 原始的bitmap对象。.
-             }
-         }
-         return bitmap;
+            } catch (OutOfMemoryError ex) {
+                // Android建议大家如果出现了内存不足异常，最好return 原始的bitmap对象。.
+            }
+        }
+        return bitmap;
     }
 
-	public static Bitmap drawTextToBitmap(Context gContext, int gResId, String gText) {  
-    	  Log.i(TAG, "drawTextToBitmap = " + gText);
-		  Resources resources = gContext.getResources();  
-		  float scale = resources.getDisplayMetrics().density;  
-		  Bitmap bitmap =   
-		     BitmapFactory.decodeResource(resources, gResId);  
-		   
-		  Bitmap.Config bitmapConfig =
-		      bitmap.getConfig();  
-		  // set default bitmap config if none   
-		 if(bitmapConfig == null) {  
-		    bitmapConfig = Bitmap.Config.ARGB_8888;
-		  }  
-		  // resource bitmaps are imutable,    
-		  // so we need to convert it to mutable one   
-		  bitmap = bitmap.copy(bitmapConfig, true);  
-		   
-		  Canvas canvas = new Canvas(bitmap);  
-		  // new antialised Paint   
-		  Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);  
-		  // text color - #3D3D3D   
-		  paint.setColor(Color.WHITE);  
-		  // text size in pixels   
-		  paint.setTextSize((int) (12 * scale));  
-		  // text shadow   
-//		  paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);  
-		   
-		  // draw text to the Canvas center   
-		  Rect bounds = new Rect();  
-		  paint.getTextBounds(gText, 0, gText.length(), bounds);  
-		  int x = (bitmap.getWidth() - bounds.width())/2;  
-		  int y = (bitmap.getHeight())/2 + (int)scale*2;  
-		   
-		  canvas.drawText(gText,  x, y, paint);  
-	      
-		  canvas.save(Canvas.ALL_SAVE_FLAG); 
-	      canvas.restore();
-		   
-		  return bitmap;  
-	}
+    public static Bitmap drawTextToBitmap(Context gContext, int gResId, String gText) {
+        Log.i(TAG, "drawTextToBitmap = " + gText);
+        Resources resources = gContext.getResources();
+        float scale = resources.getDisplayMetrics().density;
+        Bitmap bitmap =
+                BitmapFactory.decodeResource(resources, gResId);
 
+        Bitmap.Config bitmapConfig =
+                bitmap.getConfig();
+        // set default bitmap config if none
+        if(bitmapConfig == null) {
+            bitmapConfig = Bitmap.Config.ARGB_8888;
+        }
+        // resource bitmaps are imutable,
+        // so we need to convert it to mutable one
+        bitmap = bitmap.copy(bitmapConfig, true);
+
+        Canvas canvas = new Canvas(bitmap);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // text color - #3D3D3D
+        paint.setColor(Color.WHITE);
+        // text size in pixels
+        paint.setTextSize((int) (12 * scale));
+        // text shadow
+//		  paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+
+        // draw text to the Canvas center
+        Rect bounds = new Rect();
+        paint.getTextBounds(gText, 0, gText.length(), bounds);
+        int x = (bitmap.getWidth() - bounds.width())/2;
+        int y = (bitmap.getHeight())/2 + (int)scale*2;
+
+        canvas.drawText(gText,  x, y, paint);
+
+        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.restore();
+
+        return bitmap;
+    }
+
+    /**
+     * 图片反转
+     *
+     * @param bmp
+     * @param flag
+     *            0为水平反转，1为垂直反转
+     * @return
+     */
+    public static Bitmap reverseBitmap(Bitmap bmp, int flag) {
+        float[] floats = null;
+        switch (flag) {
+            case 0: // 水平反转
+                floats = new float[] { -1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f };
+                break;
+            case 1: // 垂直反转
+                floats = new float[] { 1f, 0f, 0f, 0f, -1f, 0f, 0f, 0f, 1f };
+                break;
+        }
+
+        if (floats != null) {
+            Matrix matrix = new Matrix();
+            matrix.setValues(floats);
+            return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+        }
+
+        return null;
+    }
 
     /**
      * 获取圆角的bitmap
@@ -492,6 +530,8 @@ public class BitmapUtil {
 
         return output;
     }
+
+
     public static Bitmap getGrayscale(Bitmap bmpOriginal) {
         int width, height;
         height = bmpOriginal.getHeight();
@@ -583,10 +623,10 @@ public class BitmapUtil {
         }
         int i = mp.getDuration();
         mp.release();
-        // MediaMetadataRetriever retriver = new MediaMetadataRetriever();
-        // retriver.setDataSource(file);
-        // bitmap = retriver.getFrameAtTime(i);
-        // retriver.release();
+        MediaMetadataRetriever retriver = new MediaMetadataRetriever();
+        retriver.setDataSource(file);
+        bitmap = retriver.getFrameAtTime(i);
+        retriver.release();
         if (bitmap != null) {
             int imageHeight = bitmap.getHeight();
             int imageWidth = bitmap.getWidth();
@@ -605,31 +645,83 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    public static Bitmap getFillCenterBitmap(InputStream input){
-        byte[] bytes = null;
-        try {
-            ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024]; // 用数据装
-            int len = -1;
-            while ((len = input.read(buffer)) != -1) {
-                outstream.write(buffer, 0, len);
-            }
-            outstream.close();
-            // 关闭流一定要记得。
-            bytes = outstream.toByteArray();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
-        if (bytes == null) {
-            return null;
+    /**
+     * 获取视频的缩略图
+     * 先通过ThumbnailUtils来创建一个视频的缩略图，然后再利用ThumbnailUtils来生成指定大小的缩略图。
+     * 如果想要的缩略图的宽和高都小于MICRO_KIND，则类型要使用MICRO_KIND作为kind的值，这样会节省内存。
+     * @param videoPath 视频的路径
+     * @param width 指定输出视频缩略图的宽度
+     * @param height 指定输出视频缩略图的高度度
+     * @param kind 参照MediaStore.Images.Thumbnails类中的常量MINI_KIND和MICRO_KIND。
+     *            其中，MINI_KIND: 512 x 384，MICRO_KIND: 96 x 96
+     * @return 指定大小的视频缩略图
+     */
+    public static Bitmap getVideoThumbnail(String videoPath, int width, int height,
+                                           int kind) {
+        Bitmap bitmap = null;
+        // 获取视频的缩略图
+        bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, kind);
+        System.out.println("w"+bitmap.getWidth());
+        System.out.println("h"+bitmap.getHeight());
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        return bitmap;
+    }
+
+    /**
+     * 根据指定的图像路径和大小来获取缩略图
+     * 此方法有两点好处：
+     *     1. 使用较小的内存空间，第一次获取的bitmap实际上为null，只是为了读取宽度和高度，
+     *        第二次读取的bitmap是根据比例压缩过的图像，第三次读取的bitmap是所要的缩略图。
+     *     2. 缩略图对于原图像来讲没有拉伸，这里使用了2.2版本的新工具ThumbnailUtils，使
+     *        用这个工具生成的图像不会被拉伸。
+     * @param imagePath 图像的路径
+     * @param width 指定输出图像的宽度
+     * @param height 指定输出图像的高度
+     * @return 生成的缩略图
+     */
+    public static Bitmap getImageThumbnail(String imagePath, int width, int height) {
+        Bitmap bitmap = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        // 获取这个图片的宽和高，注意此处的bitmap为null
+        bitmap = BitmapFactory.decodeFile(imagePath, options);
+        options.inJustDecodeBounds = false; // 设为 false
+        // 计算缩放比
+        int h = options.outHeight;
+        int w = options.outWidth;
+        int beWidth = w / width;
+        int beHeight = h / height;
+        int be = 1;
+        if (beWidth < beHeight) {
+            be = beWidth;
+        } else {
+            be = beHeight;
         }
+        if (be <= 0) {
+            be = 1;
+        }
+        options.inSampleSize = be;
+        // 重新读入图片，读取缩放后的bitmap，注意这次要把options.inJustDecodeBounds 设为 false
+        bitmap = BitmapFactory.decodeFile(imagePath, options);
+        // 利用ThumbnailUtils来创建缩略图，这里要指定要缩放哪个Bitmap对象
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        return bitmap;
+    }
+
+    /**
+     * 获取居中的的bitmap
+     * @param input
+     * @return
+     */
+    public static Bitmap getFillCenterBitmap(InputStream input){
 
         Bitmap bitmap = null;
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opt);
+        BitmapFactory.decodeStream(input, null ,opt);
         int imageHeight = opt.outWidth;
         int imageWidth = opt.outHeight;
         int screenWidth = EquipmentInfo.getScreenWidth();
@@ -646,36 +738,14 @@ public class BitmapUtil {
             opt.inSampleSize = (int) (1 / scale);
             // 杩欐鍐嶇湡姝ｅ湴鐢熸垚涓�涓湁鍍忕礌鐨勶紝缁忚繃缂╂斁浜嗙殑bitmap
             opt.inJustDecodeBounds = false;
-            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, opt);
+            bitmap = BitmapFactory.decodeStream(input,null, opt);
         } else {
-            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            bitmap = BitmapFactory.decodeStream(input);
         }
         return bitmap;
     }
 
-    /**
-     * Drawable转化成bitmap
-     * @param drawable
-     * @return
-     */
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap = Bitmap.createBitmap(
-                drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(),
-                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
-                        : Bitmap.Config.RGB_565);
 
-        Canvas canvas = new Canvas(bitmap);
-
-        //canvas.setBitmap(bitmap);
-
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-
-        drawable.draw(canvas);
-
-        return bitmap;
-
-    }
 
     /**
      * 图片倒影

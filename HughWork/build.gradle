@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '25.0.2'
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         vectorDrawables.useSupportLibrary=true
-        minSdkVersion 11
-        targetSdkVersion 24
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
@@ -20,31 +20,37 @@ android {
     lintOptions {
         abortOnError false
     }
+
     useLibrary 'org.apache.http.legacy'
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    buildToolsVersion '26.0.2'
 }
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:support-v4'
+    implementation 'com.android.support:appcompat-v7:'+ rootProject.ext.dependencies.support_version
+    implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.dependencies.support_version
+    implementation 'com.android.support:design:' + rootProject.ext.dependencies.support_version
     compile files('libs/ksoap2-android-3.0.0.jar')
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-    compile 'com.google.code.gson:gson:2.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    implementation 'com.google.code.gson:gson:2.5'
     // rxjava
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-
-//    compile ("com.android.support:appcompat-v7:${project.APPCOMPAT_VERSION}"){
-//        exclude module: 'support-v4'
-//    }
-//    compile "com.android.support:design:${project.DESIGN_SUPPORT_VERSION}"
+    compile "io.reactivex.rxjava2:rxjava:2.0.7"
+    compile "io.reactivex.rxjava2:rxandroid:2.0.1"
+    //    compile ("com.android.support:appcompat-v7:${project.APPCOMPAT_VERSION}"){
+    //        exclude module: 'support-v4'
+    //    }
+    //    compile "com.android.support:design:${project.DESIGN_SUPPORT_VERSION}"
 
 }
 

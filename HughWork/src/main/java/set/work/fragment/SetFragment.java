@@ -1,33 +1,30 @@
 package set.work.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import set.work.RunnableManager;
-import set.work.handler.ProgressListenHandler;
-import set.work.listener.BackHandledInterface;
-import set.work.thread.RequestBack;
-
 import java.lang.reflect.Field;
 
-public abstract class SetFragment extends Fragment implements RequestBack{
+import set.work.RunnableManager;
+import set.work.handler.ProgressListenHandler;
+import set.work.listener.FragmentCallBack;
+import set.work.thread.RequestBack;
+
+public abstract class SetFragment extends Fragment implements RequestBack {
 	protected ProgressListenHandler handler;
 	private boolean networkPauseCancel;
+	protected FragmentCallBack fragCallBack;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		handler = new ProgressListenHandler(this.getActivity(), this);
-		if (!(getActivity() instanceof BackHandledInterface)) {
-			throw new ClassCastException("Hosting Activity must implement BackHandledInterface");
+		if (!(getActivity() instanceof FragmentCallBack)) {
+			throw new ClassCastException("Hosting Activity must implement FragmentCallBack");
 		} else {
-			this.mBackHandledInterface = (BackHandledInterface) getActivity();
+			this.fragCallBack = (FragmentCallBack) getActivity();
 		}
 	}
-
-	protected BackHandledInterface mBackHandledInterface;
 
 	/**
 	 * 所有继承BackHandledFragment的子类都将在这个方法中实现物理Back键按下后的逻辑
@@ -40,7 +37,7 @@ public abstract class SetFragment extends Fragment implements RequestBack{
 	public void onStart() {
 		super.onStart();
 		// 告诉FragmentActivity，当前Fragment在栈顶
-		mBackHandledInterface.setSelectedFragment(this);
+		fragCallBack.setBackHandledFragment(this);
 	}
 
 	@Override
@@ -83,8 +80,8 @@ public abstract class SetFragment extends Fragment implements RequestBack{
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		if (activity instanceof FragCallBack) {
-			fragCallBack = (FragCallBack)activity;
+		if (activity instanceof FragmentCallBack) {
+			fragCallBack = (FragmentCallBack)activity;
 		}
 	}
 
@@ -95,14 +92,8 @@ public abstract class SetFragment extends Fragment implements RequestBack{
 		this.networkPauseCancel = networkPauseCancel;
 	}
 
-	public void setFragCallBack(FragCallBack fragCallBack) {
+	public void setFragCallBack(FragmentCallBack fragCallBack) {
 		this.fragCallBack = fragCallBack;
 	}
-	protected  FragCallBack fragCallBack;
-	public interface FragCallBack{
-		//传值给activity
-		void onFragmentCallBack(Intent intent);
-		//直接跳转
-		void onFragmentInteraction(Uri uri);
-	}
+
 }

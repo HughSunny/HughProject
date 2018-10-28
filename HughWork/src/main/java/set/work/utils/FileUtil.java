@@ -3,6 +3,7 @@ package set.work.utils;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,7 +22,7 @@ import java.util.GregorianCalendar;
  * 文件处理工具
  */
 public class FileUtil {
-    private static final String TAG  = "FileUtil";
+    private static final String TAG  = FileUtil.class.getSimpleName();
     private static int MAX_WRITE_SIZE = 102400;
     private static char[] BUFFER = new char[MAX_WRITE_SIZE];
     /**
@@ -411,6 +412,29 @@ public class FileUtil {
     }
 
 
+    /**
+     * 获得指定文件的byte数组
+     */
+    public static byte[] getFileBytes(File file){
+        byte[] buffer = null;
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
 
 
 }

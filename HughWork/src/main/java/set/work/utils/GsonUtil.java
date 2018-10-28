@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -244,4 +245,26 @@ public class GsonUtil {
         return objMap;
     }
 
+    public abstract static class Foo<T> {
+        public Class<T> type;
+        public Foo() {
+            this.type = (Class<T>) getClass();
+        }
+    }
+
+    public static void getType(Foo foo){
+        Type mySuperClass = foo.getClass().getGenericSuperclass();
+        Type type = ((ParameterizedType)mySuperClass).getActualTypeArguments()[0];
+        System.out.println(type);
+    }
+
+    public static void main(String[] args) {
+        //http://www.cnblogs.com/qq78292959/p/3781814.html
+        Foo<String> foo = new Foo<String>(){};
+        Class mySuperClass = foo.getClass();
+        System.out.println(mySuperClass);
+        System.out.println(foo.type.getClass());
+        getType(foo);
+
+    }
 }

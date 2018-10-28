@@ -141,7 +141,7 @@ public class CustomWebView extends WebView {
 			super.onProgressChanged(view, newProgress);
 			Log.i(TAG, "newProgress = " + newProgress);
 			if (newProgress == 100) {
-				// handler.sendEmptyMessageDelayed(0, 22300);
+				// mHandler.sendEmptyMessageDelayed(0, 22300);
 				progress = newProgress;
 			}
 		}

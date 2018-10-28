@@ -23,4 +23,7 @@
     <dimen name="slv_item_bg_btn_width">48dip</dimen>
     <dimen name="slv_item_bg_btn2_width">60dip</dimen>
     <dimen name="slv_item_bg_btn_width_img">100dip</dimen>
+
+    <dimen name="item_height">50dip</dimen>
+    <dimen name="item_margin">5dip</dimen>
 </resources>

@@ -15,11 +15,13 @@ import java.util.Map;
  * 网络请求实体类
  */
 public class RequestListBean extends ArrayList<Map<String, String>> implements Serializable, Cloneable{
+	//请求类型
 	public int type = TYPE_URL;
 	public static final int TYPE_STRING = 0;
 	public static final int TYPE_URL = 1 ;
 	public static final int TYPE_FILE = 2 ;
 	public static final int TYPE_LIST = 3 ;
+	public static final int TYPE_OBJ = 4 ;
 	private int requestType;
 	private Object requestId;
 	private Object requestTag;

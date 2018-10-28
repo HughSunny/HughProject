@@ -930,7 +930,7 @@ public class WheelView extends View {
 		animationHandler.removeMessages(MESSAGE_JUSTIFY);
 	}
 
-	// animation handler
+	// animation mHandler
 	private Handler animationHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
