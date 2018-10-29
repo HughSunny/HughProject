@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import set.work.utils.BitmapUtil;
 import set.work.utils.PublicTools;
 
 /**
@@ -881,7 +882,7 @@ public final class TransImageView extends SurfaceView implements SurfaceHolder.C
 			bitmapBackGround = bitmapCurrent;
 		}
 
-		bitmapCurrent = PublicTools.getBitmap(mSourceFile, image_w, image_h,2);
+		bitmapCurrent = BitmapUtil.getBitmap(mSourceFile, image_w, image_h,2);
 		if (bitmapCurrent == null) {
 			Log.d(TAG, "setNextImage(): bitmapCurrent is null");
 			hasDrawed = true;

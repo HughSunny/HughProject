@@ -73,22 +73,22 @@ public class RxJavaTest {
         compositeDisposable.dispose();
 
 
-        Observable<File> observable1 = Observable.fromArray(folders.toArray());
-
-        observable1.filter(new Predicate<List<File>>() {
-                    @Override
-                    public boolean test(List<File> fileList) throws Exception {
-                        return file.getName().endsWith(".png");
-                    }
-                }).flatMap(new Function<List<File>, ObservableSource<File>>() {
-                    @Override
-                    public ObservableSource<File> apply(List<File> file) throws Exception {
-                        Observable.fromIterable(Arrays.asList(file.listFiles()));
-                        return null;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+//        Observable<File> observable1 = Observable.fromArray(folders.toArray());
+//
+//        observable1.filter(new Predicate<List<File>>() {
+//                    @Override
+//                    public boolean test(List<File> fileList) throws Exception {
+//                        return file.getName().endsWith(".png");
+//                    }
+//                }).flatMap(new Function<List<File>, ObservableSource<File>>() {
+//                    @Override
+//                    public ObservableSource<File> apply(List<File> file) throws Exception {
+//                        Observable.fromIterable(Arrays.asList(file.listFiles()));
+//                        return null;
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread());
     }
 
 

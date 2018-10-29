@@ -14,7 +14,7 @@ import set.work.bean.DownloadRequestBean;
 import set.work.bean.ResultBean;
 import set.work.handler.ListenHandler;
 import set.work.utils.FinalStrings;
-import set.work.utils.LogUtil;
+import set.work.utils.android.LogUtil;
 
 /**
  * Created by Hugh on 2017/6/22.
@@ -22,6 +22,7 @@ import set.work.utils.LogUtil;
  */
 
 public class DownloadRemote<T> extends BaseRemote{
+    private static final String TAG = DownloadRemote.class.getSimpleName();
     protected String mUrl;
     private DownloadRequestBean downRequestBean;
     private byte[] TEMP_BUFFER = new byte[1024 * 20];
@@ -44,7 +45,7 @@ public class DownloadRemote<T> extends BaseRemote{
         try{
             request = new Request.Builder().url(mUrl).build();
         }catch (Exception e){
-            LogUtil.Error(this, e.getMessage());
+            LogUtil.Error(this.getClass().getSimpleName(), e.getMessage());
             return expResult;
         }
         if (request == null) {
@@ -88,7 +89,7 @@ public class DownloadRemote<T> extends BaseRemote{
                     //如果超时并未超过指定次数，则重新连接
                     tryTimes++;
                 } else {
-                    LogUtil.Error(this, e.getMessage());
+                    LogUtil.Error("DownloadRemote", e.getMessage());
                     ResultBean result = new ResultBean(downRequestBean, FinalStrings.WEB_WRARING,null);
                     return result;
                 }
@@ -109,7 +110,7 @@ public class DownloadRemote<T> extends BaseRemote{
         try{
             request = new Request.Builder().url(mUrl).build();
         }catch (Exception e){
-            LogUtil.Error(this, e.getMessage());
+            LogUtil.Error(TAG, e.getMessage());
             return;
         }
         if (request == null) {
@@ -128,7 +129,7 @@ public class DownloadRemote<T> extends BaseRemote{
                     tryTimes++;
                     client.newCall(call.request()).enqueue(this);
                 } else {
-                    LogUtil.Error(this, e.getMessage());
+                    LogUtil.Error(TAG, e.getMessage());
                     ResultBean result = new ResultBean(downRequestBean, FinalStrings.WEB_WRARING,null);
                     sendResult(result);
                 }
@@ -168,7 +169,7 @@ public class DownloadRemote<T> extends BaseRemote{
                         tryTimes++;
                         client.newCall(call.request()).enqueue(this);
                     } else {
-                        LogUtil.Error(this, e.getMessage());
+                        LogUtil.Error(TAG, e.getMessage());
                         ResultBean result = new ResultBean(downRequestBean, FinalStrings.WEB_WRARING,null);
                         sendResult(result);
                     }

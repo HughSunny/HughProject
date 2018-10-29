@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import set.work.utils.LogUtil;
+import set.work.utils.android.LogUtil;
 
 /**
  * Created by Hugh on 2016/7/4.

@@ -27,10 +27,9 @@ import android.widget.TextView;
 import com.set.R;
 import com.set.util.SyncImageLoader;
 
+import set.view.img_show.ImageShowViewPager;
+import set.view.img_show.TouchImageView;
 import set.work.utils.BitmapUtil;
-import set.work.view.img_show.ImageShowViewPager;
-import set.work.view.img_show.TouchImageView;
-
 /**
  * 历次病历 检查 心电、病理、超声 图片查看
  * @author Hugh

@@ -24,7 +24,7 @@ public class SoapRemote<T> extends BaseRemote<T> {
     public ResultBean<T> getRemoteResult() {
         SoapRunnable soapRunnable = new SoapRunnable(name_space, methodName, handler, requestBean, urlString);
         ResultBean<T> result = soapRunnable.getRunnableResult();
-        result.parseResult();
+//        result.parseResult();
         return result;
     }
 
